@@ -16,9 +16,10 @@ public class EquipmentController {
 
     @GetMapping("equipment/new")
     public String createEquipment(Model m){
-        m.addAttribute("equipment", new Equipment);
+        m.addAttribute("equipment", new Equipment());
+        return "equipmentNew";
 
-        }
+
     }
 
 }

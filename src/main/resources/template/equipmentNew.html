@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Student</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"/>
+
+</head>
+<body>
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Add New Equipment</h1>
+        <form method="post" action="/equipment/new" th:object="${equipment}">
+            <div class="form-group">
+                <label for="brand">Name: </label>
+                <input type="text" class="form-control" id="brand" placeholder="Enter name of equipment"
+                       th:field="${equipment.equipmentName}"
+                       required="true"/>
+            </div>
+
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="color">Age: </label>
+                    <input type="text" class="form-control" id="color" placeholder="Enter age of the equipment"
+                           th:field="${equipment.equipmentAge}"
+                           required="true"/>
+                </div>
+                <div class="form-group">
+                    <label for="doors">Price from new </label>
+                    <input type="text" class="form-control" id="doors" placeholder="Enter price from new"
+                           th:field="${equipment.priceFromNew}" required="true"/>
+                </div>
+                <div class="form-group">
+                    <label for="doors">Dependency </label>
+                    <input type="text" class="form-control" id="doors" placeholder="Enter dependency for equipment"
+                           th:field="${equipment.dependency}" required="true"/>
+                </div>
+                <div class="form-group">
+                    <label for="doors">More info? </label>
+                    <input type="text" class="form-control" id="doors" placeholder="More info about the equipment"
+                           th:field="${equipment.ownerComment}" required="false"/>
+                </div>
+                <div class="form-group">
+                    <label for="doors">Availability </label>
+                    <input type="text" class="form-control" id="doors" placeholder="Availability of equipment"
+                           th:field="${equipment.availableForLoan}" required="true"/>
+                </div>
+                <div class="form-group">
+                    <label for="doors">Current holder?</label>
+                    <input type="text" class="form-control" id="doors" placeholder=""
+                           th:field="${equipment.currentHolder}" required="true"/>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-outline-success">Save</button>
+            <button type="reset" class="btn btn-outline-danger">Reset</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
