@@ -5,13 +5,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Person {
+public abstract class Person {
     @Id
     @GeneratedValue
     private Long id;
     private String firstName;
     private String lastName;
     private String email;
+    private String password;
     private String telephoneNumber;
     private String address;
     private Integer zipcode;
@@ -73,5 +74,13 @@ public class Person {
 
     public void setZipcode(Integer zipcode) {
         this.zipcode = zipcode;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
