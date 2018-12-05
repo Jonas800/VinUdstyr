@@ -1,9 +1,6 @@
 package design.exam.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Equipment {
@@ -16,6 +13,8 @@ public class Equipment {
     private String dependency;
     private String ownerComment;
     private boolean availableForLoan;
+
+    @OneToOne
     private User currentHolder;
 
     public Equipment(String equipmentName, int equipmentAge, int priceFromNew, String dependency, String ownerComment, boolean availableForLoan, User currentHolder) {
