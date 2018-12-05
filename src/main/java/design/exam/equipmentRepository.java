@@ -7,6 +7,4 @@ import java.util.List;
 
 public interface equipmentRepository extends CrudRepository<Equipment, Long> {
     List<Equipment> findAll();
-    Equipment findById(Long id);
-
 }
