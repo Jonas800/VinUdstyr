@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8"/>
-    <title>Student</title>
+    <title>Equipment</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
@@ -24,13 +24,13 @@
             <div class="form-group">
                 <div class="form-group">
                     <label for="color">Age: </label>
-                    <input type="text" class="form-control" id="color" placeholder="Enter age of the equipment"
+                    <input type="number" class="form-control" id="color" placeholder="Enter age of the equipment"
                            th:field="${equipment.equipmentAge}"
                            required="true"/>
                 </div>
                 <div class="form-group">
                     <label for="doors">Price from new </label>
-                    <input type="text" class="form-control" id="doors" placeholder="Enter price from new"
+                    <input type="number" class="form-control" id="doors" placeholder="Enter price from new"
                            th:field="${equipment.priceFromNew}" required="true"/>
                 </div>
                 <div class="form-group">
@@ -44,8 +44,8 @@
                            th:field="${equipment.ownerComment}" required="false"/>
                 </div>
                 <div class="form-group">
-                    <label for="doors">Availability </label>
-                    <input type="text" class="form-control" id="doors" placeholder="Availability of equipment"
+                    <label for="color">Availability </label>
+                    <input type="checkbox" class="form-control" id="color" placeholder="Availability of equipment"
                            th:field="${equipment.availableForLoan}" required="true"/>
                 </div>
                 <div class="form-group">
