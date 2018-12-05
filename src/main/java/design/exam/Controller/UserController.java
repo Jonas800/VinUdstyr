@@ -9,15 +9,13 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Optional;
 
 @Controller
 public class UserController {
@@ -83,6 +81,25 @@ public class UserController {
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             e.printStackTrace();
         }
+
+        user.setApproved(false);
+        userRepository.save(user);
+
+        return "redirect:/login";
+    }
+
+    @GetMapping("/user/view")
+    public String approveUser(Model model){
+        model.addAttribute("users", userRepository.findAllByIsApprovedEquals(false));
+
+        return "userView";
+    }
+
+    @GetMapping("/user/approve/{id}")
+    public String approveUser(@PathVariable Long id){
+        Optional<User> optionalUser = userRepository.findById(id);
+        User user = optionalUser.get();
+        user.setApproved(true);
 
         userRepository.save(user);
 
