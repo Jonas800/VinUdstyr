@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Student</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"/>
+
+</head>
+<body>
+
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Edit Equipment</h1>
+        <form th:object="${equipment}">
+            <div class="form-group">
+                <label for="equipmentName">Name: </label>
+                <input type="text" class="form-control" id="equipmentName" placeholder="Enter name of equipment"
+                       th:field="${equipment.equipmentName}" required="true"/>
+            </div>
+
+            <div class="form-group">
+                <label for="equipmentAge">Age: </label>
+                <input type="number" class="form-control" id="equipmentAge" placeholder="Enter age of the equipment"
+                       th:field="${equipment.equipmentAge}"
+                       required="true"/>
+            </div>
+
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="priceFromNew">Price from new: </label>
+                    <input type="number" class="form-control" id="priceFromNew" placeholder="Price from new"
+                           th:field="${equipment.priceFromNew}"
+                           required="true"/>
+                </div>
+                <div class="form-group">
+                    <label for="dependency">Dependency: </label>
+                    <input type="text" class="form-control" id="dependency" placeholder="Dependency of other equipment"
+                           th:field="${equipment.dependency}"
+                           required="true"/>
+                </div>
+                <div class="form-group">
+                    <label for="ownerComment">More info?: </label>
+                    <input type="text" class="form-control" id="ownerComment" placeholder="More info about the equipment"
+                           th:field="${equipment.ownerComment}"
+                           required="true"/>
+                </div>
+                <div class="form-group">
+                    <label for="availableForLoan">Availability: </label>
+                    <input type="checkbox" class="form-control" id="availableForLoan" placeholder="Availability of the equipment"
+                           th:field="${equipment.availableForLoan}"
+                           readonly="true"/>
+                </div>
+                <div class="form-group">
+                    <label for="currentHolder">Current holder: </label>
+                    <input type="text" class="form-control" id="currentHolder" placeholder=""
+                           th:field="${equipment.currentHolder}"
+                           readonly="true"/>
+                </div>
+
+
+            </div>
+
+
+
+            <button type="button" class="btn btn-outline-success" id="update-btn">Update</button>
+            <button type="button" class="equipment-delete btn btn-outline-danger" th:attr="data-id=${equipment.id}">Delete
+        </form>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(document).on("click", ".equipment-delete", function () {
+        console.log("Button press");
+        var equipmentId = $(this).data("id");
+
+
+
+        $.ajax({
+            url: 'http://localhost:8080/equipment/delete/' + equipmentId,
+            method: 'delete',
+            success: function (resp) {
+                alert("This equipment has been deleted\n" + JSON.stringify(resp));
+                location.reload();
+            },
+            error: function (err) {
+                alert("ERROR\n" + JSON.stringify(err));
+                location.reload();
+            }
+        });
+    })
+</script>
+<script th:inline="javascript">
+    $(document).on('click', '#update-btn', function () {
+        console.log("btn pressed");
+        console.log($('#name').val());
+        var equipmentId = [[${equipment.id}]];
+        $.ajax({
+            url: "http://localhost:8080/equipment/update/"+equipmentId,
+            method: "put",
+            data: {
+                equipmentName: $('#equipmentName').val(),
+                equipmentAge:$('#equipmentAge').val() ,
+                priceFromNew: $('#priceFromNew').val(),
+                dependency: $('#dependency').val(),
+                ownerComment: $('#ownerComment').val(),
+                availableForLoan: $('#availableForLoan').val(),
+                currentHolder: $('#currentHolder').val(),
+            },
+            success: function (resp) {
+                alert("This equipment has been updated\n" + JSON.stringify(resp));
+                location.href="/";
+            },
+            error: function (err) {
+                alert("ERROR\n" + JSON.stringify(err));
+                location.reload();
+            }
+        });
+    });
+</script>
+<!--<script>-->
+<!--var userStringFromLS = localStorage.getItem('user');-->
+<!--var user = JSON.parse(userStringFromLS);-->
+<!--console.log(user.name);-->
+
+<!--$('#name_span').text(user.name);-->
+
+<!--if (user.gender == 'M') {-->
+<!--$('#nav_top').addClass('bg-primary');-->
+<!--} else {-->
+<!--$('#nav_top').addClass('bg-danger');-->
+<!--}-->
+<!--</script>-->
+</body>
+</html>
