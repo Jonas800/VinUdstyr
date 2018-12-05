@@ -14,7 +14,7 @@ public class EquipmentController {
     @Autowired
     private equipmentRepository equipmentRepo;
 
-    @GetMapping("equipment/new")
+    @GetMapping("/equipment/new")
     public String createEquipment(Model m){
         m.addAttribute("equipment", new Equipment());
         return "equipmentNew";
