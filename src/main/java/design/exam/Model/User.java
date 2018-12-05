@@ -1,4 +1,4 @@
 package design.exam.Model;
 
-public class User {
+public class User extends Person{
 }

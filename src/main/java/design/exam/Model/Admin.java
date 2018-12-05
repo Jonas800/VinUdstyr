@@ -1,4 +1,4 @@
 package design.exam.Model;
 
-public class Admin {
+public class Admin extends Person{
 }
