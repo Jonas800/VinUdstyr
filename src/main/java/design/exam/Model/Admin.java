@@ -1,4 +1,7 @@
 package design.exam.Model;
 
-public class Admin {
+import javax.persistence.Entity;
+
+@Entity
+public class Admin extends Person{
 }
