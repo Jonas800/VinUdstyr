@@ -13,9 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class EquipmentController {
@@ -44,7 +46,7 @@ public class EquipmentController {
         return "equipmentEdit";
     }
 
-    @GetMapping("/files/{filename:.+}")
+    @GetMapping("/equipment/show/files/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 
@@ -58,5 +60,19 @@ public class EquipmentController {
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
         return ResponseEntity.notFound().build();
+    }
+
+
+    @GetMapping("/equipment/show/{id}")
+    public String showEquipment(Model model, @PathVariable Long id){
+        Optional<Equipment> equipment = equipmentRepo.findById(id);
+        Equipment e = equipment.get();
+        storageService.loadAll().map(
+                path -> MvcUriComponentsBuilder.fromMethodName(EquipmentController.class,
+                        "serveFile", path.getFileName().toString()).build().toString())
+                .collect(Collectors.toList());
+        model.addAttribute("file", "equipment/show/files/" + e.getFileName());
+        model.addAttribute("equipment", e);
+        return "equipmentShow";
     }
 }
