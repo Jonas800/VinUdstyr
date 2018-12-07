@@ -13,6 +13,7 @@ public class Equipment {
     private String dependency;
     private String ownerComment;
     private boolean availableForLoan;
+    private String fileName;
 
     @OneToOne
     private User currentHolder;
@@ -28,6 +29,14 @@ public class Equipment {
     }
 
     public Equipment() {
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public Long getId() { return id; }

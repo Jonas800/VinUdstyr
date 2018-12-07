@@ -4,24 +4,29 @@ package design.exam.Controller;
 import design.exam.Model.Equipment;
 import design.exam.Model.User;
 import design.exam.equipmentRepository;
+import design.exam.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
 @RestController
 public class EquipmentAPIController {
 
+    private final StorageService storageService;
+
+    @Autowired
+    public EquipmentAPIController(StorageService storageService) {
+        this.storageService = storageService;
+    }
+
     @Autowired
     private equipmentRepository equipmentRepo;
 
-    @PostMapping("/equipment/new")
-    public ResponseEntity<Equipment> newEquipment(Equipment equipment){
-        Equipment e = equipmentRepo.save(equipment);
-        return new ResponseEntity(e, HttpStatus.OK);
-    }
     @PutMapping("/equipment/update/{id}")
     public ResponseEntity<Equipment> updateStudent(@PathVariable Long id,
                                                    @RequestParam String equipmentName,
@@ -50,5 +55,26 @@ public class EquipmentAPIController {
         Equipment equipment = optionalEquipment.get();
         equipmentRepo.delete(equipment);
         return new ResponseEntity(equipment, HttpStatus.OK);
+    }
+    @PostMapping("/equipment/new")
+    public ResponseEntity<Equipment> newEquipment(Equipment equipment, @RequestParam("file")MultipartFile file, RedirectAttributes redirectAttributes){
+        String fileName = storageService.store(file);
+        redirectAttributes.addFlashAttribute("message",
+                "You successfully uploaded " + file.getOriginalFilename() + "!");
+
+        equipment.setFileName(fileName);
+        Equipment e = equipmentRepo.save(equipment);
+
+        return new ResponseEntity(e, HttpStatus.OK);
+    }
+    @PostMapping("/")
+    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+                                   RedirectAttributes redirectAttributes) {
+
+        storageService.store(file);
+        redirectAttributes.addFlashAttribute("message",
+                "You successfully uploaded " + file.getOriginalFilename() + "!");
+
+        return "redirect:/";
     }
 }

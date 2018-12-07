@@ -13,49 +13,55 @@
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
         <h1 class="display-4">Add New Equipment</h1>
-        <form method="post" action="/equipment/new" th:object="${equipment}">
+        <form method="post" action="/equipment/new" enctype="multipart/form-data" th:object="${equipment}">
             <div class="form-group">
-                <label for="brand">Name: </label>
-                <input type="text" class="form-control" id="brand" placeholder="Enter name of equipment"
+                <label for="brand">Udstyr: </label>
+                <input type="text" class="form-control" id="brand" placeholder="Udstyr"
                        th:field="${equipment.equipmentName}"
                        required="true"/>
             </div>
 
             <div class="form-group">
                 <div class="form-group">
-                    <label for="color">Age: </label>
-                    <input type="number" class="form-control" id="color" placeholder="Enter age of the equipment"
+                    <label for="color">Alder: </label>
+                    <input type="number" class="form-control" id="color" placeholder="Alder"
                            th:field="${equipment.equipmentAge}"
                            required="true"/>
                 </div>
                 <div class="form-group">
-                    <label for="doors">Price from new </label>
-                    <input type="number" class="form-control" id="doors" placeholder="Enter price from new"
+                    <label for="doors">Pris fra ny </label>
+                    <input type="number" class="form-control" id="doors" placeholder="Pris fra ny"
                            th:field="${equipment.priceFromNew}" required="true"/>
                 </div>
                 <div class="form-group">
-                    <label for="doors">Dependency </label>
-                    <input type="text" class="form-control" id="doors" placeholder="Enter dependency for equipment"
+                    <label for="doors">Afhængighed</label>
+                    <input type="text" class="form-control" id="doors" placeholder="Afhængighed"
                            th:field="${equipment.dependency}" required="true"/>
                 </div>
                 <div class="form-group">
-                    <label for="doors">More info? </label>
-                    <input type="text" class="form-control" id="doors" placeholder="More info about the equipment"
+                    <label for="doors">Mere info om udstyret </label>
+                    <input type="text" class="form-control" id="doors" placeholder="Mere info om udstyret"
                            th:field="${equipment.ownerComment}" readonly="true"/>
                 </div>
                 <div class="form-group">
-                    <label for="color">Availability </label>
-                    <input type="checkbox" class="form-control" id="color" placeholder="Availability of equipment"
+                    <label for="color">Tilgængelighed </label>
+                    <input type="checkbox" class="form-control" id="color" placeholder="Tilgængelighed"
                            th:field="${equipment.availableForLoan}" readonly="true"/>
                 </div>
                 <div class="form-group">
-                    <label for="doors">Current holder?</label>
+                    <label for="doors">Nuværende adresse</label>
                     <input type="text" class="form-control" id="doors" placeholder=""
                            th:field="${equipment.currentHolder}" readonly="true"/>
                 </div>
+                <div class="form-group">
+                    <label>Upload billede</label>
+                        <table>
+                            <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+                        </table>
+                </div>
             </div>
 
-            <button type="submit" class="btn btn-outline-success">Save</button>
+            <button type="submit" class="btn btn-outline-success" value="Upload">Save</button>
             <button type="reset" class="btn btn-outline-danger">Reset</button>
         </form>
     </div>
