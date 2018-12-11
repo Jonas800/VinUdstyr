@@ -1,5 +1,6 @@
 package design.exam.Helpers;
 
+import design.exam.Model.Admin;
 import design.exam.Model.User;
 import design.exam.Repository.UserRepository;
 
@@ -11,26 +12,27 @@ import java.security.spec.InvalidKeySpecException;
 public class SessionHelper {
 
     private static HttpServletRequest request;
+    private static HttpSession session;
 
-    public static HttpServletRequest getRequest() {
+
+    public HttpServletRequest getRequest() {
         return request;
     }
 
     public static void setRequest(HttpServletRequest request) {
         SessionHelper.request = request;
+        SessionHelper.session = request.getSession();
     }
 
-    public static boolean isSessionValid(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        //System.out.println(session.getAttribute("user"));
-        return session.getAttribute("user") != null;
+    public static boolean isLoginSessionValid() {
+        if (request != null) {
+            return session.getAttribute("login") != null;
+        } else{ return false; }
     }
 
-    /*public static boolean isAdministrator(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-
-        if (session.getAttribute("user") != null) {
-            if (session.getAttribute("user") instanceof Administrator) {
+    public static boolean isAdmin() {
+        if (isLoginSessionValid()) {
+            if (session.getAttribute("login") instanceof Admin) {
                 return true;
             } else {
                 return false;
@@ -40,11 +42,10 @@ public class SessionHelper {
         }
     }
 
-    public static boolean isTeacher(HttpServletRequest request) {
-        HttpSession session = request.getSession();
 
-        if (session.getAttribute("user") != null) {
-            if (session.getAttribute("user") instanceof Teacher) {
+    public static boolean isUser() {
+        if (isLoginSessionValid()) {
+            if (session.getAttribute("login") instanceof User) {
                 return true;
             } else {
                 return false;
@@ -53,6 +54,16 @@ public class SessionHelper {
             return false;
         }
     }
+
+    public static String invalidRequestRedirect() {
+        if (isLoginSessionValid()) {
+            return "redirect:/forbidden";
+        } else {
+            return "redirect:/login";
+        }
+    }
+
+    /*
 
     public static boolean isStudent(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -115,7 +126,7 @@ public class SessionHelper {
         }
     }*/
 
-    public static void logout(){
+    public static void logout() {
         HttpSession session = request.getSession();
         session.invalidate();
     }
