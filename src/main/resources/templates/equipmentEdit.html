@@ -116,7 +116,7 @@
             },
             success: function (resp) {
                 alert("This equipment has been updated\n" + JSON.stringify(resp));
-                location.href="/";
+                location.href="/equipment/show/"+equipmentId;
             },
             error: function (err) {
                 alert("ERROR\n" + JSON.stringify(err));

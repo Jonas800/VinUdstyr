@@ -8,6 +8,7 @@ import design.exam.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,5 +75,16 @@ public class EquipmentController {
         model.addAttribute("file", "equipment/show/files/" + e.getFileName());
         model.addAttribute("equipment", e);
         return "equipmentShow";
+    }
+    @PostMapping("/equipment/new")
+    public String newEquipment(Equipment equipment, @RequestParam("file")MultipartFile file, RedirectAttributes redirectAttributes){
+        String fileName = storageService.store(file);
+        redirectAttributes.addFlashAttribute("message",
+                "You successfully uploaded " + file.getOriginalFilename() + "!");
+
+        equipment.setFileName(fileName);
+        Equipment e = equipmentRepo.save(equipment);
+
+        return "redirect:/equipmentList";
     }
 }

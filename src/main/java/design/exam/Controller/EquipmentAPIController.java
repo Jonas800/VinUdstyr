@@ -28,7 +28,7 @@ public class EquipmentAPIController {
     private equipmentRepository equipmentRepo;
 
     @PutMapping("/equipment/update/{id}")
-    public ResponseEntity<Equipment> updateStudent(@PathVariable Long id,
+    public String updateStudent(@PathVariable Long id,
                                                    @RequestParam String equipmentName,
                                                    @RequestParam Integer equipmentAge,
                                                    @RequestParam Integer priceFromNew,
@@ -47,7 +47,7 @@ public class EquipmentAPIController {
         equipmentToBeUpdated.setAvailableForLoan(availableForLoan);
 
         equipmentRepo.save(equipmentToBeUpdated);
-        return new ResponseEntity(equipmentToBeUpdated, HttpStatus.OK);
+        return "equipmentShow";
     }
     @DeleteMapping("/equipment/delete/{id}")
     public ResponseEntity<Equipment> deleteEquipment(@PathVariable Long id){
@@ -56,17 +56,7 @@ public class EquipmentAPIController {
         equipmentRepo.delete(equipment);
         return new ResponseEntity(equipment, HttpStatus.OK);
     }
-    @PostMapping("/equipment/new")
-    public ResponseEntity<Equipment> newEquipment(Equipment equipment, @RequestParam("file")MultipartFile file, RedirectAttributes redirectAttributes){
-        String fileName = storageService.store(file);
-        redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
 
-        equipment.setFileName(fileName);
-        Equipment e = equipmentRepo.save(equipment);
-
-        return new ResponseEntity(e, HttpStatus.OK);
-    }
     @PostMapping("/")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {

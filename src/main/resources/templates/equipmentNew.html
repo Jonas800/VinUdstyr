@@ -12,7 +12,7 @@
 <body>
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
-        <h1 class="display-4">Add New Equipment</h1>
+        <h1 class="display-4">Tilføj nyt udstyr</h1>
         <form method="post" action="/equipment/new" enctype="multipart/form-data" th:object="${equipment}">
             <div class="form-group">
                 <label for="brand">Udstyr: </label>
@@ -41,7 +41,7 @@
                 <div class="form-group">
                     <label for="doors">Mere info om udstyret </label>
                     <input type="text" class="form-control" id="doors" placeholder="Mere info om udstyret"
-                           th:field="${equipment.ownerComment}" readonly="true"/>
+                           th:field="${equipment.ownerComment}" required="false"/>
                 </div>
                 <div class="form-group">
                     <label for="color">Tilgængelighed </label>
@@ -56,7 +56,7 @@
                 <div class="form-group">
                     <label>Upload billede</label>
                         <table>
-                            <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+                            <tr><td>File to upload:</td><td><input type="file" name="file" required="true" /></td></tr>
                         </table>
                 </div>
             </div>
