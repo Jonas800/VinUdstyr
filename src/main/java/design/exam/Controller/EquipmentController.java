@@ -1,7 +1,10 @@
 package design.exam.Controller;
 
 
+import design.exam.Helpers.SessionHelper;
 import design.exam.Model.Equipment;
+import design.exam.Model.Person;
+import design.exam.Model.User;
 import design.exam.equipmentRepository;
 import design.exam.storage.StorageFileNotFoundException;
 import design.exam.storage.StorageService;
@@ -17,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -81,7 +85,9 @@ public class EquipmentController {
         String fileName = storageService.store(file);
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
-
+        Person person = SessionHelper.getCurrentUser();
+        equipment.setOwner(person);
+        equipment.setCurrentHolder(person);
         equipment.setFileName(fileName);
         Equipment e = equipmentRepo.save(equipment);
 

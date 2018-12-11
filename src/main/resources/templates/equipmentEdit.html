@@ -54,12 +54,7 @@
                            th:field="${equipment.availableForLoan}"
                            readonly="true"/>
                 </div>
-                <div class="form-group">
-                    <label for="currentHolder">Current holder: </label>
-                    <input type="text" class="form-control" id="currentHolder" placeholder=""
-                           th:field="${equipment.currentHolder}"
-                           readonly="true"/>
-                </div>
+
 
 
             </div>
@@ -112,7 +107,7 @@
                 dependency: $('#dependency').val(),
                 ownerComment: $('#ownerComment').val(),
                 availableForLoan: $('#availableForLoan').val(),
-                currentHolder: $('#currentHolder').val(),
+
             },
             success: function (resp) {
                 alert("This equipment has been updated\n" + JSON.stringify(resp));

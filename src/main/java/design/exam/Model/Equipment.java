@@ -15,10 +15,13 @@ public class Equipment {
     private boolean availableForLoan;
     private String fileName;
 
-    @OneToOne
-    private User currentHolder;
+    @ManyToOne
+    private Person owner;
 
-    public Equipment(String equipmentName, int equipmentAge, int priceFromNew, String dependency, String ownerComment, boolean availableForLoan, User currentHolder) {
+    @ManyToOne
+    private Person currentHolder;
+
+    public Equipment(String equipmentName, int equipmentAge, int priceFromNew, String dependency, String ownerComment, boolean availableForLoan, Person currentHolder, Person owner) {
         this.equipmentName = equipmentName;
         this.equipmentAge = equipmentAge;
         this.priceFromNew = priceFromNew;
@@ -26,9 +29,18 @@ public class Equipment {
         this.ownerComment = ownerComment;
         this.availableForLoan = availableForLoan;
         this.currentHolder = currentHolder;
+        this.owner = owner;
     }
 
     public Equipment() {
+    }
+
+    public Person getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Person owner) {
+        this.owner = owner;
     }
 
     public String getFileName() {
@@ -67,7 +79,7 @@ public class Equipment {
 
     public void setAvailableForLoan(boolean availableForLoan) { this.availableForLoan = availableForLoan; }
 
-    public User getCurrentHolder() { return currentHolder; }
+    public Person getCurrentHolder() { return currentHolder; }
 
-    public void setCurrentHolder(User currentHolder) { this.currentHolder = currentHolder; }
+    public void setCurrentHolder(Person currentHolder) { this.currentHolder = currentHolder; }
 }

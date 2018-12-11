@@ -1,6 +1,7 @@
 package design.exam.Helpers;
 
 import design.exam.Model.Admin;
+import design.exam.Model.Person;
 import design.exam.Model.User;
 import design.exam.Repository.UserRepository;
 
@@ -15,7 +16,7 @@ public class SessionHelper {
     private static HttpSession session;
 
 
-    public HttpServletRequest getRequest() {
+    public static HttpServletRequest getRequest() {
         return request;
     }
 
@@ -61,6 +62,10 @@ public class SessionHelper {
         } else {
             return "redirect:/login";
         }
+    }
+
+    public static Person getCurrentUser(){
+        return (Person) request.getSession().getAttribute("login");
     }
 
     /*
