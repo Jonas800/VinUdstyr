@@ -3,12 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
 
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4"><label th:text="${equipment.equipmentName}"></label></h1>
+            <div class="form-row">
+                <div class="form-group col-md-5">
+                <img style="width: 100%;" th:src="@{'~/'+${file}}" />
 
+                </div>
+                <div class="form-group col-md-5">
+                    <div class="form-group">
+                        <label>Alder: </label>
+                        <label th:text="${equipment.equipmentAge}"></label>
+                    </div>
+                    <div class="form-group">
+                        <label>Pris: </label>
+                        <label th:text="${equipment.priceFromNew}"></label>
+                    </div>
+                    <div class="form-group">
+                        <label>Afhængighed: </label>
+                        <label th:text="${equipment.dependency}"></label>
+                    </div>
+                    <div class="form-group">
+                        <label>Tilrådighed: </label>
+                        <label th:text="${equipment.availableForLoan}"></label>
+                    </div>
+                    <div class="form-group">
+                        <label>Mere info om udstyret: </label>
+                        <label th:text="${equipment.ownerComment}"></label>
+                    </div>
+                    <div class="form-group">
+                        <label>Ejer: </label>
+                        <label th:text="${owner.firstName} + ' ' + ${owner.lastName}"></label>
+                    </div>
+                </div>
+            </div>
 
-<img th:src="@{'~/'+${file}}" />
+        </div>
+    </div>
+
 
 
 

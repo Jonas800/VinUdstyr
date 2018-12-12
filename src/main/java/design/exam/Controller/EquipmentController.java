@@ -78,8 +78,13 @@ public class EquipmentController {
                 .collect(Collectors.toList());
         model.addAttribute("file", "equipment/show/files/" + e.getFileName());
         model.addAttribute("equipment", e);
+        model.addAttribute("owner", e.getOwner());
         return "equipmentShow";
     }
+
+    @GetMapping("/equipment")
+
+
     @PostMapping("/equipment/new")
     public String newEquipment(Equipment equipment, @RequestParam("file")MultipartFile file, RedirectAttributes redirectAttributes){
         String fileName = storageService.store(file);
