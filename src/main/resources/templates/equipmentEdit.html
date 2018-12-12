@@ -11,6 +11,9 @@
 </head>
 <body>
 
+<!--
+<div th:replace="/header"></div>
+-->
 
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
@@ -110,7 +113,7 @@
 
             },
             success: function (resp) {
-                alert("This equipment has been updated\n" + JSON.stringify(resp));
+                alert("Dette udstyr er blevet slettet\n" + JSON.stringify(resp));
                 location.href="/equipment/show/"+equipmentId;
             },
             error: function (err) {

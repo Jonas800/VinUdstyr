@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejer udstyr view</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+</head>
+<body>
+<!--
+<div th:replace="/header"></div>
+-->
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <div class="form-row" >
+            <div th:replace="/equipmentShowForm"></div>
+            <div class="form-group col-md-12" >
+                <a class="btn btn-outline-primary" th:href="'/equipment/edit/'+${equipment.id}">Rediger</a>
+                <button type="button" class="equipment-delete btn btn-outline-danger" th:attr="data-id=${equipment.id}">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+    $(document).on("click", ".equipment-delete", function () {
+        console.log("Button press");
+        var equipmentId = $(this).data("id");
+
+        $.ajax({
+            url: 'http://localhost:8080/equipment/delete/' + equipmentId,
+            method: 'delete',
+            success: function (resp) {
+                alert("Dette udstyr er blevet slettet\n" + JSON.stringify(resp));
+                location.href="/equipment/show";
+            },
+            error: function (err) {
+                alert("ERROR\n" + JSON.stringify(err));
+                location.reload();
+            }
+        });
+    })
+</script>
+
+
+</body>
+</html>
+
