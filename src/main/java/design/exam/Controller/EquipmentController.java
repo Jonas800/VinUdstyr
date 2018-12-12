@@ -4,14 +4,12 @@ package design.exam.Controller;
 import design.exam.Helpers.SessionHelper;
 import design.exam.Model.Equipment;
 import design.exam.Model.Person;
-import design.exam.Model.User;
-import design.exam.equipmentRepository;
+import design.exam.Repository.EquipmentRepository;
 import design.exam.storage.StorageFileNotFoundException;
 import design.exam.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpSession;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -35,7 +32,7 @@ public class EquipmentController {
     }
 
     @Autowired
-    private equipmentRepository equipmentRepo;
+    private EquipmentRepository equipmentRepo;
 
     @GetMapping("/equipment/new")
     public String createEquipment(Model m){

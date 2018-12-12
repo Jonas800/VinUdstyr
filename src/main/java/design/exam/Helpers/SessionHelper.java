@@ -28,7 +28,9 @@ public class SessionHelper {
     public static boolean isLoginSessionValid() {
         if (request != null) {
             return session.getAttribute("login") != null;
-        } else{ return false; }
+        } else {
+            return false;
+        }
     }
 
     public static boolean isAdmin() {
@@ -64,8 +66,18 @@ public class SessionHelper {
         }
     }
 
-    public static Person getCurrentUser(){
+    public static Person getCurrentUser() {
         return (Person) request.getSession().getAttribute("login");
+    }
+
+    public static String getCurrentUserName() {
+        if (isLoginSessionValid()) {
+            Person person = (Person) request.getSession().getAttribute("login");
+            return person.getFirstName() + " " + person.getLastName();
+        } else {
+            return "Ikke logget ind";
+        }
+
     }
 
     /*

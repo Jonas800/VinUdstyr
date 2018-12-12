@@ -1,4 +1,4 @@
-package design.exam;
+package design.exam.Repository;
 
 import design.exam.Model.Equipment;
 import org.springframework.data.repository.CrudRepository;
@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface equipmentRepository extends CrudRepository<Equipment, Long> {
+public interface EquipmentRepository extends CrudRepository<Equipment, Long> {
     List<Equipment> findAll();
-
+    List<Equipment> findTop4ByOrderByIdDesc();
 }
