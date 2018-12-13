@@ -22,6 +22,17 @@
             </figure>
         </div>
     </div>
+    <div class="row">
+        <div th:each="equipment : ${closestEquipment}" class="col-sm-3">
+            <figure>
+                <a href="/equipment/details">
+
+                    <img width="100%" th:src="@{'~/files/'+${equipment.fileName}}" alt="">
+                    <figcaption th:text="${equipment.equipmentName}"></figcaption>
+                </a>
+            </figure>
+        </div>
+    </div>
 </div>
 </body>
 </html>

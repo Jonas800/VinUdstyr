@@ -15,6 +15,9 @@ public class Equipment {
     private boolean availableForLoan;
     private String fileName;
 
+    @Transient
+    private Integer distance;
+
     @ManyToOne
     private Person owner;
 
@@ -82,4 +85,12 @@ public class Equipment {
     public Person getCurrentHolder() { return currentHolder; }
 
     public void setCurrentHolder(Person currentHolder) { this.currentHolder = currentHolder; }
+
+    public Integer getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Integer distance) {
+        this.distance = distance;
+    }
 }

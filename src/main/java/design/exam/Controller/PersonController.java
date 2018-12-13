@@ -47,7 +47,7 @@ public class PersonController {
                     HttpSession session = request.getSession();
                     session.setAttribute("login", person);
                     SessionHelper.setRequest(request);
-                    return "index";
+                    return "redirect:/";
                 }
             } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
                 e.printStackTrace();

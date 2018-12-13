@@ -1,5 +1,9 @@
 package design.exam.Controller;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import design.exam.Helpers.GoogleDistanceAPI;
 import design.exam.Helpers.SessionHelper;
 import design.exam.Model.Equipment;
@@ -7,6 +11,8 @@ import design.exam.Model.Person;
 import design.exam.Repository.EquipmentRepository;
 import design.exam.storage.StorageFileNotFoundException;
 import design.exam.storage.StorageService;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -36,7 +42,7 @@ public class HomeController {
     @Autowired
     private EquipmentRepository equipmentRepository;
 
-    @GetMapping("/index")
+    @GetMapping("/")
     public String index(Model model) {
         storageService.loadAll().map(
                 path -> MvcUriComponentsBuilder.fromMethodName(HomeController.class,
@@ -45,14 +51,49 @@ public class HomeController {
         model.addAttribute("newestEquipment", equipmentRepository.findTop4ByOrderByIdDesc());
 
         GoogleDistanceAPI googleDistanceAPI = new GoogleDistanceAPI();
-        Person person = SessionHelper.getCurrentUser();
+        Person currentLogin = SessionHelper.getCurrentUser();
+
+        String destinations = "";
+
+        List<Equipment> equipmentList = equipmentRepository.findAll();
+        equipmentList.removeIf(equipment -> equipment.getCurrentHolder().getId().equals(currentLogin.getId()));
+
+        for (int i = 0; i < equipmentList.size(); i++) {
+            Person currentHolder = equipmentList.get(i).getCurrentHolder();
+            if (!currentHolder.getId().equals(currentLogin.getId())) {
+                destinations += currentHolder.getAddress() + " " + currentHolder.getZipcode() + " Danmark" + "|";
+            }
+        }
+        destinations = destinations.substring(0, destinations.length() - 1);
+        System.out.println(destinations);
 
 
         try {
-            System.out.println(googleDistanceAPI.calculate(person.getAddress() + " " + person.getZipcode() + " Danmark", "Lygten 18 2400 Danmark"));
+            //Get Json as String
+            JSONObject distanceJson = googleDistanceAPI.calculate(currentLogin.getAddress() + " " + currentLogin.getZipcode() + " Danmark", destinations);
+            //Get distances
+            JSONArray rows = distanceJson.getJSONArray("rows");
+            JSONObject elements = rows.getJSONObject(0);
+            JSONArray elementsArray = elements.getJSONArray("elements");
+            for (int i = 0; i < equipmentList.size(); i++) {
+                JSONObject distances = elementsArray.getJSONObject(i);
+                JSONObject distancesArray = distances.getJSONObject("distance");
+
+                Integer distance = distancesArray.getInt("value");
+                equipmentList.get(i).setDistance(distance);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        equipmentList.sort(new Comparator<Equipment>() {
+            @Override
+            public int compare(Equipment e1, Equipment e2) {
+                return e1.getDistance().compareTo(e2.getDistance());
+            }
+        });
+
+        model.addAttribute("closestEquipment", equipmentList);
 
         return "index";
     }
