@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Liste over eget udstyr</h1>
+<table class="table table-striped">
+    <thead>
+    <tr>
+
+        <td scope="col">Navn på udstyr</td>
+        <td scope="col">Startdato</td>
+        <td scope="col">Slutdato</td>
+        <td scope="col">Accepteret</td>
+
+
+    </tr>
+    </thead>
+
+    <tbody style="font-size: 20px">
+    <tr th:each="loan:${loans}">
+
+        <td th:text="${loan.equipment}"></td>
+        <td th:text="${loan.startDate}"></td>
+        <td th:text="${loan.endDate}"></td>
+        <td th:text="${loan.accepted}"></td>
+
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

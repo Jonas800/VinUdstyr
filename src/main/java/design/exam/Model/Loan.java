@@ -1,7 +1,10 @@
 package design.exam.Model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 public class Loan {
@@ -10,13 +13,23 @@ public class Loan {
     private Long id;
     @ManyToOne
     private Person loanee;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Equipment equipment;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
     private boolean Accepted;
 
     public Loan() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Person getLoanee() {
@@ -34,6 +47,23 @@ public class Loan {
     public void setEquipment(Equipment equipment) {
         this.equipment = equipment;
     }
+
+//    public Date getStartDate() {
+//        return startDate;
+//    }
+//
+//    public void setStartDate(Date startDate) {
+//        this.startDate = startDate;
+//    }
+//
+//    public Date getEndDate() {
+//        return endDate;
+//    }
+//
+//    public void setEndDate(Date endDate) {
+//        this.endDate = endDate;
+//    }
+
 
     public LocalDate getStartDate() {
         return startDate;

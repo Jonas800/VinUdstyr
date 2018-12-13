@@ -3,7 +3,9 @@ package design.exam.Controller;
 
 import design.exam.Helpers.SessionHelper;
 import design.exam.Model.Equipment;
+import design.exam.Model.Loan;
 import design.exam.Model.Person;
+import design.exam.Repository.LoanRepository;
 import design.exam.equipmentRepository;
 import design.exam.storage.StorageFileNotFoundException;
 import design.exam.storage.StorageService;
@@ -35,6 +37,8 @@ public class EquipmentController {
 
     @Autowired
     private equipmentRepository equipmentRepo;
+    @Autowired
+    private LoanRepository loanRepo;
 
     @GetMapping("/equipment/new")
     public String createEquipment(Model m){
@@ -111,6 +115,9 @@ public class EquipmentController {
                         "serveFile", path.getFileName().toString()).build().toString())
                 .collect(Collectors.toList());
         model.addAttribute("equipments", equipment);
+
+//        List<Loan> loans = loanRepo.findAllByLoanee(SessionHelper.getCurrentUser().getId());
+//        model.addAttribute("loans", loans);
 
         return "equipmentList";
     }
