@@ -44,58 +44,62 @@ public class HomeController {
 
     @GetMapping("/")
     public String index(Model model) {
-        storageService.loadAll().map(
-                path -> MvcUriComponentsBuilder.fromMethodName(HomeController.class,
-                        "serveFile", path.getFileName().toString()).build().toString())
-                .collect(Collectors.toList());
-        model.addAttribute("newestEquipment", equipmentRepository.findTop4ByOrderByIdDesc());
+        if (SessionHelper.isLoginSessionValid()) {
+            storageService.loadAll().map(
+                    path -> MvcUriComponentsBuilder.fromMethodName(HomeController.class,
+                            "serveFile", path.getFileName().toString()).build().toString())
+                    .collect(Collectors.toList());
+            model.addAttribute("newestEquipment", equipmentRepository.findTop4ByOrderByIdDesc());
 
-        GoogleDistanceAPI googleDistanceAPI = new GoogleDistanceAPI();
-        Person currentLogin = SessionHelper.getCurrentUser();
+            GoogleDistanceAPI googleDistanceAPI = new GoogleDistanceAPI();
+            Person currentLogin = SessionHelper.getCurrentUser();
 
-        String destinations = "";
+            String destinations = "";
 
-        List<Equipment> equipmentList = equipmentRepository.findAll();
-        equipmentList.removeIf(equipment -> equipment.getCurrentHolder().getId().equals(currentLogin.getId()));
+            List<Equipment> equipmentList = equipmentRepository.findAll();
+            equipmentList.removeIf(equipment -> equipment.getCurrentHolder().getId().equals(currentLogin.getId()));
 
-        for (int i = 0; i < equipmentList.size(); i++) {
-            Person currentHolder = equipmentList.get(i).getCurrentHolder();
-            if (!currentHolder.getId().equals(currentLogin.getId())) {
-                destinations += currentHolder.getAddress() + " " + currentHolder.getZipcode() + " Danmark" + "|";
-            }
-        }
-        destinations = destinations.substring(0, destinations.length() - 1);
-        System.out.println(destinations);
-
-
-        try {
-            //Get Json as String
-            JSONObject distanceJson = googleDistanceAPI.calculate(currentLogin.getAddress() + " " + currentLogin.getZipcode() + " Danmark", destinations);
-            //Get distances
-            JSONArray rows = distanceJson.getJSONArray("rows");
-            JSONObject elements = rows.getJSONObject(0);
-            JSONArray elementsArray = elements.getJSONArray("elements");
             for (int i = 0; i < equipmentList.size(); i++) {
-                JSONObject distances = elementsArray.getJSONObject(i);
-                JSONObject distancesArray = distances.getJSONObject("distance");
-
-                Integer distance = distancesArray.getInt("value");
-                equipmentList.get(i).setDistance(distance);
+                Person currentHolder = equipmentList.get(i).getCurrentHolder();
+                if (!currentHolder.getId().equals(currentLogin.getId())) {
+                    destinations += currentHolder.getAddress() + " " + currentHolder.getZipcode() + " Danmark" + "|";
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            destinations = destinations.substring(0, destinations.length() - 1);
+            System.out.println(destinations);
+
+
+            try {
+                //Get Json from Google as JSONObject
+                JSONObject distanceJson = googleDistanceAPI.calculate(currentLogin.getAddress() + " " + currentLogin.getZipcode() + " Danmark", destinations);
+                //Get distances
+                JSONArray rows = distanceJson.getJSONArray("rows");
+                JSONObject elements = rows.getJSONObject(0);
+                JSONArray elementsArray = elements.getJSONArray("elements");
+                for (int i = 0; i < equipmentList.size(); i++) {
+                    JSONObject distances = elementsArray.getJSONObject(i);
+                    JSONObject distancesArray = distances.getJSONObject("distance");
+
+                    Integer distance = distancesArray.getInt("value");
+                    equipmentList.get(i).setDistance(distance);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            equipmentList.sort(new Comparator<Equipment>() {
+                @Override
+                public int compare(Equipment e1, Equipment e2) {
+                    return e1.getDistance().compareTo(e2.getDistance());
+                }
+            });
+
+            model.addAttribute("closestEquipment", equipmentList);
+
+            return "index";
+        } else {
+            return "redirect:/login";
         }
-
-        equipmentList.sort(new Comparator<Equipment>() {
-            @Override
-            public int compare(Equipment e1, Equipment e2) {
-                return e1.getDistance().compareTo(e2.getDistance());
-            }
-        });
-
-        model.addAttribute("closestEquipment", equipmentList);
-
-        return "index";
     }
 
     @GetMapping("/files/{filename:.+}")
