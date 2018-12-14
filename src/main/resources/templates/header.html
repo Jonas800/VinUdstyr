@@ -44,6 +44,9 @@
                 <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search">
                 <button type="submit" class="btn btn-outline-black my-2 my-sm-0">Search</button>
             </form>
+            <li class="nav-item active">
+                <a class="nav-link" href="/search/advanced">Udvidet søgning</a>
+            </li>
         </ul>
         <span th:text="${T(design.exam.Helpers.SessionHelper).getCurrentUserName()}" class="navbar-text"></span>
         <span><a class="nav-link" href="/logout">Logout</a></span>

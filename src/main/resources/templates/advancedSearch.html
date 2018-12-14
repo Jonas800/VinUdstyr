@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Udvidet søgning</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="/header"></div>
+<form method="post" action="/advancedSearch">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Udvidet søgning</h1>
+            <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Navn på udstyr</label>
+                <input th:field="${equipment.equipmentName}" type="text" class="form-control"
+                       placeholder="Navn på udstyr">
+            </div>
+            <div class="form-group col-md-6">
+                <label>Pris fra ny</label>
+                <input th:field="${equipment.priceFromNew}" type="text" class="form-control"
+                       placeholder="Pris fra ny" >
+
+            </div>
+        </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Info fra ejeren</label>
+                    <input th:field="${equipment.ownerComment}" type="text" class="form-control"
+                           placeholder="Info fra ejeren">
+
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Tilgængelig</label>
+                    <input th:field="${equipment.availableForLoan}" type="checkbox" class="form-control" checked>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label>Postnummer</label>
+                    <input th:field="${equipment.owner.zipcode}" type="text" class="form-control"
+                           placeholder="Postnummer" >
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Fornavn på ejer</label>
+                    <input th:field="${equipment.owner.firstName}" type="text" class="form-control"
+                           placeholder="Fornavn på ejer" >
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Efternavn på ejer</label>
+                    <input th:field="${equipment.owner.lastName}" type="text" class="form-control"
+                           placeholder="Efternavn på ejer" >
+                </div>
+            </div>
+
+            <button type="submit" value="send" class="btn btn-primary">Søg</button>
+
+        </div>
+    </div>
+</form>
+</body>
+</html>

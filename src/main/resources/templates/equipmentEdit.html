@@ -65,7 +65,7 @@
 
 
             <button type="button" class="btn btn-outline-success" id="update-btn">Update</button>
-            <button type="button" class="equipment-delete btn btn-outline-danger" th:attr="data-id=${equipment.id}">Delete
+            <button type="button" class="equipment-delete btn btn-outline-danger" th:attr="data-id=${equipment.id}">Delete</button>
         </form>
     </div>
 </div>
@@ -85,8 +85,8 @@
             url: 'http://localhost:8080/equipment/delete/' + equipmentId,
             method: 'delete',
             success: function (resp) {
-                alert("This equipment has been deleted\n" + JSON.stringify(resp));
-                location.reload();
+                alert("Dette udstyr er blevet slettet\n");
+                location.href="index";
             },
             error: function (err) {
                 alert("ERROR\n" + JSON.stringify(err));
@@ -113,7 +113,7 @@
 
             },
             success: function (resp) {
-                alert("Dette udstyr er blevet slettet\n" + JSON.stringify(resp));
+                alert("Dette udstyr er blevet opdateret\n");
                 location.href="/equipment/show/"+equipmentId;
             },
             error: function (err) {

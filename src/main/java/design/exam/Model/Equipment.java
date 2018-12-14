@@ -79,9 +79,13 @@ public class Equipment {
 
     public void setOwnerComment(String ownerComment) { this.ownerComment = ownerComment; }
 
-    public Boolean isAvailableForLoan() { return availableForLoan; }
+    public Boolean getAvailableForLoan() {
+        return availableForLoan;
+    }
 
-    public void setAvailableForLoan(boolean availableForLoan) { this.availableForLoan = availableForLoan; }
+    public void setAvailableForLoan(Boolean availableForLoan) {
+        this.availableForLoan = availableForLoan;
+    }
 
     public Person getCurrentHolder() { return currentHolder; }
 
