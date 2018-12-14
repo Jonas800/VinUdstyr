@@ -1,6 +1,7 @@
 package design.exam.Model;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 
 @Entity
 public class Equipment {
@@ -8,11 +9,11 @@ public class Equipment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String equipmentName;
-    private int equipmentAge;
-    private int priceFromNew;
+    private Integer equipmentAge;
+    private Integer priceFromNew;
     private String dependency;
     private String ownerComment;
-    private boolean availableForLoan;
+    private Boolean availableForLoan;
     private String fileName;
 
     @Transient
@@ -62,13 +63,13 @@ public class Equipment {
 
     public void setEquipmentName(String equipmentName) { this.equipmentName = equipmentName; }
 
-    public int getEquipmentAge() { return equipmentAge; }
+    public Integer getEquipmentAge() { return equipmentAge; }
 
-    public void setEquipmentAge(int equipmentAge) { this.equipmentAge = equipmentAge; }
+    public void setEquipmentAge(Integer equipmentAge) { this.equipmentAge = equipmentAge; }
 
-    public int getPriceFromNew() { return priceFromNew; }
+    public Integer getPriceFromNew() { return priceFromNew; }
 
-    public void setPriceFromNew(int priceFromNew) { this.priceFromNew = priceFromNew; }
+    public void setPriceFromNew(Integer priceFromNew) { this.priceFromNew = priceFromNew; }
 
     public String getDependency() { return dependency; }
 
@@ -78,9 +79,13 @@ public class Equipment {
 
     public void setOwnerComment(String ownerComment) { this.ownerComment = ownerComment; }
 
-    public boolean isAvailableForLoan() { return availableForLoan; }
+    public Boolean getAvailableForLoan() {
+        return availableForLoan;
+    }
 
-    public void setAvailableForLoan(boolean availableForLoan) { this.availableForLoan = availableForLoan; }
+    public void setAvailableForLoan(Boolean availableForLoan) {
+        this.availableForLoan = availableForLoan;
+    }
 
     public Person getCurrentHolder() { return currentHolder; }
 

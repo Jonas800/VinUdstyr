@@ -5,6 +5,10 @@ import design.exam.Model.Equipment;
 import design.exam.Model.Loan;
 import design.exam.Repository.EquipmentRepository;
 import design.exam.Repository.LoanRepository;
+<<<<<<< HEAD
+=======
+import org.hibernate.annotations.Generated;
+>>>>>>> master
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

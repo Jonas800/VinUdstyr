@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,15 +28,34 @@ public class SearchController {
         );
 
         ModelAndView mav = new ModelAndView("searchResult");
-        mav.getModel().put("equipmentList", equipment);
+        mav.getModel().put("equipmentSearch", equipment);
 
         return mav;
     }
 
     @GetMapping("/search/advanced")
     public String advancedSearch(Model model){
-        model.addAttribute("equipment", new Equipment());
+        Equipment equipment = new Equipment();
+        equipment.setAvailableForLoan(true);
+        model.addAttribute("equipment", equipment);
 
         return "advancedSearch";
+    }
+    @PostMapping("/advancedSearch")
+    public ModelAndView advancedSearch(@ModelAttribute Equipment equipment){
+        ArrayList<Equipment> result = (ArrayList<Equipment>) equipmentRepository.findAll(Specification.
+                where(SearchSpecification.doesFieldContain(equipment.getEquipmentName(), "equipmentName")).
+                or(SearchSpecification.doesFieldEqual(equipment.getPriceFromNew(), "priceFromNew")).
+                and(SearchSpecification.doesFieldEqual(equipment.getAvailableForLoan(), "availableForLoan")).
+                and(SearchSpecification.doesFieldContain(equipment.getOwnerComment(), "ownerComment")).
+                and(SearchSpecification.doesForeignFieldContain(equipment.getOwner().getFirstName(), "firstName", "owner")).
+                and(SearchSpecification.doesForeignFieldContain(equipment.getOwner().getLastName(), "lastName", "owner")).
+                or(SearchSpecification.doesForeignFieldEqual(equipment.getOwner().getZipcode(), "zipcode", "owner"))
+        );
+
+        ModelAndView mav = new ModelAndView("searchResult");
+        mav.getModel().put("equipmentSearch", result);
+
+        return mav;
     }
 }

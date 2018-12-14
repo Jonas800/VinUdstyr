@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public abstract class Person {
+public class Person {
     @Id
     @GeneratedValue
     private Long id;
