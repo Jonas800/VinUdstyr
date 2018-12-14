@@ -66,8 +66,6 @@ public class HomeController {
                 }
             }
             destinations = destinations.substring(0, destinations.length() - 1);
-            System.out.println(destinations);
-
 
             try {
                 //Get Json from Google as JSONObject
@@ -93,6 +91,11 @@ public class HomeController {
                     return e1.getDistance().compareTo(e2.getDistance());
                 }
             });
+
+            Equipment[] equipmentArray = new Equipment[4];
+            for (int i = 0:){
+                equipmentArray[i]
+            }
 
             model.addAttribute("closestEquipment", equipmentList);
 
