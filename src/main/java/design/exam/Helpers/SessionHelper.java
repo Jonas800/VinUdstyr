@@ -12,23 +12,25 @@ import java.security.spec.InvalidKeySpecException;
 
 public class SessionHelper {
 
-    private static HttpServletRequest request;
+    //private static HttpServletRequest request;
     private static HttpSession session;
 
 
-    public static HttpServletRequest getRequest() {
-        return request;
+    public static HttpSession getSession() {
+        return session;
     }
 
-    public static void setRequest(HttpServletRequest request) {
-        SessionHelper.request = request;
-        SessionHelper.session = request.getSession();
+    public static void setSession(HttpSession session) {
+        //SessionHelper.request = request;
+        SessionHelper.session = session;
     }
 
     public static boolean isLoginSessionValid() {
-        if (request != null) {
+        if (session != null) {
             return session.getAttribute("login") != null;
-        } else{ return false; }
+        } else {
+            return false;
+        }
     }
 
     public static boolean isAdmin() {
@@ -64,8 +66,18 @@ public class SessionHelper {
         }
     }
 
-    public static Person getCurrentUser(){
-        return (Person) request.getSession().getAttribute("login");
+    public static Person getCurrentUser() {
+        return (Person) session.getAttribute("login");
+    }
+
+    public static String getCurrentUserName() {
+        if (isLoginSessionValid()) {
+            Person person = (Person) session.getAttribute("login");
+            return person.getFirstName() + " " + person.getLastName();
+        } else {
+            return "Ikke logget ind";
+        }
+
     }
 
     /*
@@ -132,7 +144,7 @@ public class SessionHelper {
     }*/
 
     public static void logout() {
-        HttpSession session = request.getSession();
+        //HttpSession session = request.getSession();
         session.invalidate();
     }
 }

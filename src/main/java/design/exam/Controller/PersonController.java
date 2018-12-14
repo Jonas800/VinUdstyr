@@ -46,8 +46,8 @@ public class PersonController {
                 if (PasswordHelper.validatePassword(password, person.getPassword())) {
                     HttpSession session = request.getSession();
                     session.setAttribute("login", person);
-                    SessionHelper.setRequest(request);
-                    return "index";
+                    SessionHelper.setSession(session);
+                    return "redirect:/";
                 }
             } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
                 e.printStackTrace();

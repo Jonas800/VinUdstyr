@@ -67,4 +67,23 @@ public class UserController {
     public String waitForApproval(){
         return "waitForApproval";
     }
+
+    @GetMapping("/user/view")
+    public String viewActiveUsers(Model model){
+
+        model.addAttribute("persons", userRepository.findAllByIsApprovedEquals(true));
+
+        return "viewApprovedUsers";
+    }
+
+    @GetMapping("/user/ban/{id}")
+    public String banUser(@PathVariable Long id){
+        Optional<User> optionalUser = userRepository.findById(id);
+        User user = optionalUser.get();
+        user.setApproved(false);
+
+        userRepository.save(user);
+
+        return "redirect:/user/view";
+    }
 }

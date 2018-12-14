@@ -2,8 +2,7 @@ package design.exam.Controller;
 
 
 import design.exam.Model.Equipment;
-import design.exam.Model.User;
-import design.exam.equipmentRepository;
+import design.exam.Repository.EquipmentRepository;
 import design.exam.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +24,7 @@ public class EquipmentAPIController {
     }
 
     @Autowired
-    private equipmentRepository equipmentRepo;
+    private EquipmentRepository equipmentRepo;
 
     @PutMapping("/equipment/update/{id}")
     public String updateStudent(@PathVariable Long id,

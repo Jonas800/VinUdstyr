@@ -1,0 +1,27 @@
+figure{
+    border:2px solid crimson;
+    overflow:hidden;
+    border-radius:11px;
+}
+figure a:hover > img{
+    transform:scale(1.5);
+    overflow:hidden;
+}
+
+figcaption{
+    margin-left:6px;
+}
+figcaption span{
+    float:right;
+    margin-right:6px;
+}
+
+figure a{
+    text-decoration:none;
+    color:black;
+}
+
+figure img{
+    object-fit: cover;
+    height:230px;
+}
