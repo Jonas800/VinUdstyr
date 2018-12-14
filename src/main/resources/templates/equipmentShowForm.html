@@ -28,7 +28,9 @@
                     </div>
                     <div class="form-group  col-md-12">
                         <label><b>Tilrådighed </b></label><br/>
-                        <label th:text="${equipment.availableForLoan}"></label>
+                        <label th:if="${equipment.availableForLoan}">Tilgængelig</label>
+                        <label th:unless="${equipment.availableForLoan}">Utilgængelig</label>
+
                     </div>
                     <div class="form-group  col-md-12">
                         <label><b>Mere info om udstyret </b></label><br/>
