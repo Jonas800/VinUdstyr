@@ -10,27 +10,33 @@
 </head>
 <body>
 <div th:replace="/header"></div>
-<div class="container">
-    <div class="row">
-        <div th:each="equipment : ${newestEquipment}" class="col-sm-3">
-            <figure>
-                <a href="/equipment/details">
+<div class="jumbotron">
+    <div class="container">
+        <h2>Nyeste</h2>
+        <div class="row">
+            <div th:each="equipment : ${newestEquipment}" class="col-sm-3">
+                <figure>
+                    <a href="/equipment/details">
 
-                    <img width="100%" th:src="@{'~/files/'+${equipment.fileName}}" alt="">
-                    <figcaption th:text="${equipment.equipmentName}"></figcaption>
-                </a>
-            </figure>
+                        <img width="100%" th:src="@{'~/files/'+${equipment.fileName}}" alt="">
+                        <figcaption th:text="${equipment.equipmentName}"></figcaption>
+                    </a>
+                </figure>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div th:each="equipment : ${closestEquipment}" class="col-sm-3">
-            <figure>
-                <a href="/equipment/details">
+        <h2>I nærheden</h2>
+        <div class="row">
+            <div th:each="equipment : ${closestEquipment}" class="col-sm-3">
+                <figure>
+                    <a href="/equipment/details">
 
-                    <img width="100%" th:src="@{'~/files/'+${equipment.fileName}}" alt="">
-                    <figcaption th:text="${equipment.equipmentName}"></figcaption>
-                </a>
-            </figure>
+                        <img width="100%" th:src="@{'~/files/'+${equipment.fileName}}" alt="">
+                        <figcaption th:utext="${equipment.equipmentName} + '<span class=' +
+                        (${equipment.availableForLoan} ? 'text-success' : 'text-danger')
+                         + '>' + (${equipment.availableForLoan} ? 'Ledig' : 'Udlånt') + '</span>'"></figcaption>
+                    </a>
+                </figure>
+            </div>
         </div>
     </div>
 </div>

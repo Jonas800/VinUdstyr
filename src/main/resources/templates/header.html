@@ -19,7 +19,7 @@
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/">VinVennerne</a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="/equipment/new">Tilføj udstyr</a>
@@ -30,7 +30,7 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/course">Teacher</a>
             </li>
-            <li class="nav-item dropdown" id="navbarDropdownMenuLink">
+            <li th:if="${T(design.exam.Helpers.TypeChecker).isAdmin(T(design.exam.Helpers.SessionHelper).getCurrentUser())} " class="nav-item dropdown" id="navbarDropdownMenuLink">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">Administrator menu</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
