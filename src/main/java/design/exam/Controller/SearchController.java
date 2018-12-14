@@ -27,7 +27,7 @@ public class SearchController {
         );
 
         ModelAndView mav = new ModelAndView("searchResult");
-        mav.getModel().put("equipmentList", equipment);
+        mav.getModel().put("equipmentSearch", equipment);
 
         return mav;
     }
