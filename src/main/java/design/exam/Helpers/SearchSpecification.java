@@ -14,7 +14,7 @@ public class SearchSpecification {
     }
 
     public static Specification<Equipment> doesFieldContain(Integer parameter, String targetField) {
-        return (Specification<Equipment>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get(targetField), "%" + parameter + "%");
+        return (Specification<Equipment>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get(targetField), parameter);
     }
 
     public static Specification<Equipment> isFieldBetween(Integer min, Integer max, String targetField) {
