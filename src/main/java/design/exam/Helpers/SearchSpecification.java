@@ -24,4 +24,12 @@ public class SearchSpecification {
     public static Specification<Equipment> doesForeignKeyContain(String parameter, String targetField, String joinTable) {
         return (Specification<Equipment>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.join(joinTable).get(targetField), "%" + parameter + "%");
     }
+
+    public static Specification<Equipment> doesForeignKeyContain(Integer parameter, String targetField, String joinTable) {
+        return (Specification<Equipment>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.join(joinTable).get(targetField), "%" + parameter + "%");
+    }
+
+    public static Specification<Equipment> doesForeignKeyContain(Boolean parameter, String targetField, String joinTable) {
+        return (Specification<Equipment>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.join(joinTable).get(targetField), "%" + parameter + "%");
+    }
 }
