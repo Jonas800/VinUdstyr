@@ -57,7 +57,7 @@ public class EquipmentAPIController {
         return new ResponseEntity(equipment, HttpStatus.OK);
     }
 
-    @PostMapping("/")
+/*    @PostMapping("/fileUpload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
 
@@ -66,5 +66,5 @@ public class EquipmentAPIController {
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 
         return "redirect:/";
-    }
+    }*/
 }

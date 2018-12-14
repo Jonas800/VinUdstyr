@@ -7,6 +7,7 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
           integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"/>
+    <link rel="stylesheet" type="text/css" href="../equipmentliststyle.css"/>
 
 </head>
 <body>
@@ -35,7 +36,7 @@
 
                 <tbody style="font-size: 20px">
                 <tr th:each="equipment:${equipments}">
-                    <td><img th:src="@{'/equipment/show/files/'+${equipment.fileName}}" style="height: 150px" /></td>
+                    <td><figure><img th:src="@{'/equipment/show/files/'+${equipment.fileName}}"/></figure></td>
                     <td th:text="${equipment.equipmentName}"></td>
                     <td th:text="${equipment.equipmentAge}"></td>
                     <td th:text="${equipment.priceFromNew}"></td>
@@ -48,30 +49,7 @@
                 </tr>
                 </tbody>
             </table>
-        <table class="table table-striped">
-            <thead>
-            <tr>
 
-                <td scope="col">Navn på udstyr</td>
-                <td scope="col">Startdato</td>
-                <td scope="col">Slutdato</td>
-                <td scope="col">Accepteret</td>
-
-
-            </tr>
-            </thead>
-
-            <tbody style="font-size: 20px">
-            <tr th:each="loan:${loans}">
-
-                <td th:text="${loan.equipment}"></td>
-                <td th:text="${loan.startDate}"></td>
-                <td th:text="${loan.endDate}"></td>
-                <td th:text="${loan.accepted}"></td>
-
-            </tr>
-            </tbody>
-        </table>
 
 
 

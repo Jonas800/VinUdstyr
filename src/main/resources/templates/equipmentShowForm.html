@@ -7,37 +7,37 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
-            <h1 class="display-4"><label th:text="${equipment.equipmentName}"></label></h1>
+            <h1 class="h1"><label th:text="${equipment.equipmentName}"></label></h1>
             <div class="form-row">
                 <div class="form-group col-md-3">
-                <img style="width: 100%;" th:src="@{'~/'+${file}}" />
+                <img style="width: 100%; height: 370px" th:src="@{'~/'+${file}}" />
 
                 </div>
-                <div class="form-group col-md-5" style="font-size: 20px">
+                <div class="form-group col-md-5" style="font-size: 20px; margin: 0px">
                     <div class="form-group col-md-12">
-                        <label> <b>Alder</b> </label><br/>
+                        <label> <b>Alder</b> </label>
                         <label th:text="${equipment.equipmentAge}"></label>
                     </div>
                     <div class="form-group  col-md-12">
-                        <label><b>Pris</b> </label><br/>
+                        <label><b>Pris</b> </label>
                         <label th:text="${equipment.priceFromNew}"></label>
                     </div>
                     <div class="form-group  col-md-12">
-                        <label><b>Afhængighed</b> </label><br/>
+                        <label><b>Afhængighed</b> </label>
                         <label th:text="${equipment.dependency}"></label>
                     </div>
                     <div class="form-group  col-md-12">
-                        <label><b>Tilrådighed </b></label><br/>
-                        <label th:if="${equipment.availableForLoan}">Tilgængelig</label>
-                        <label th:unless="${equipment.availableForLoan}">Utilgængelig</label>
+                        <label><b>Tilgængelighed </b></label>
+                        <label th:if="${equipment.availableForLoan}">Ledig</label>
+                        <label th:unless="${equipment.availableForLoan}">Udlånt</label>
 
                     </div>
                     <div class="form-group  col-md-12">
-                        <label><b>Mere info om udstyret </b></label><br/>
+                        <label><b>Mere info om udstyret </b></label>
                         <label th:text="${equipment.ownerComment}"></label>
                     </div>
                     <div class="form-group col-md-12">
-                        <label><b>Ejer</b> </label><br/>
+                        <label><b>Ejer</b> </label>
                         <label th:text="${owner.firstName} + ' ' + ${owner.lastName} + ', ' + ${owner.telephoneNumber}"></label>
                     </div>
                 </div>

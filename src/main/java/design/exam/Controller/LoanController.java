@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -50,17 +51,20 @@ public class LoanController {
         e.get().setAvailableForLoan(false);
         saveAvailability(e.get());
         loanRepo.save(loan);
-        return "redirect:/";
+        return "redirect:/user/loans";
     }
-    @PutMapping
+    //@PutMapping
     public void saveAvailability(Equipment e){
         equipmentRepo.save(e);
     }
 
 
     @GetMapping("/user/loans")
-    public String showLoans(){
-        
+    public String showLoans(Model model){
+        List<Loan> loans = loanRepo.findAllByLoanee(SessionHelper.getCurrentUser());
+        System.out.println(loans.get(0).getStartDate());
+        model.addAttribute("loans", loans);
+
         return "loans";
     }
 

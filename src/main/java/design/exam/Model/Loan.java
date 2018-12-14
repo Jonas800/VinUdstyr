@@ -15,9 +15,9 @@ public class Loan {
     private Person loanee;
     @ManyToOne(cascade = CascadeType.ALL)
     private Equipment equipment;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate startDate;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate endDate;
     private boolean Accepted;
 

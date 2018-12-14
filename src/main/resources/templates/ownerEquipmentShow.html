@@ -15,13 +15,16 @@
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
 
+        <h1 class="display-4">Mere info om udstyr</h1>
         <div class="form-row" >
-            <h1 class="display-4">Liste over eget udstyr</h1>
+            <!--<h1 class="display-4">Liste over eget udstyr</h1>-->
+
             <div th:replace="/equipmentShowForm"></div>
             <div class="form-group col-md-12" >
                 <a class="btn btn-outline-primary" th:href="'/equipment/edit/'+${equipment.id}">Rediger</a>
                 <button type="button" class="equipment-delete btn btn-outline-danger" th:attr="data-id=${equipment.id}">Delete</button>
             </div>
+
         </div>
     </div>
 </div>
