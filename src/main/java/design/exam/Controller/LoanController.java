@@ -3,11 +3,9 @@ package design.exam.Controller;
 import design.exam.Helpers.SessionHelper;
 import design.exam.Model.Equipment;
 import design.exam.Model.Loan;
+import design.exam.Repository.EquipmentRepository;
 import design.exam.Repository.LoanRepository;
-import design.exam.equipmentRepository;
-import org.hibernate.annotations.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +21,7 @@ public class LoanController {
     private static Long id;
 
     @Autowired
-    equipmentRepository equipmentRepo;
+    EquipmentRepository equipmentRepo;
     @Autowired
     LoanRepository loanRepo;
 
@@ -68,5 +66,21 @@ public class LoanController {
         return "loans";
     }
 
+    @GetMapping("/user/loanrequests")
+    public String loanRequests(Model model){
+        List<Loan> loans = loanRepo.findAllByEquipment_Owner(SessionHelper.getCurrentUser());
+        model.addAttribute("loanRequests", loans);
+        return "loanRequests";
+    }
+
+    @GetMapping("/loan/approve/{id}")
+    public String AcceptLoan(@PathVariable Long id){
+        Optional<Loan> optionalLoan = loanRepo.findById(id);
+        Loan loan = optionalLoan.get();
+        loan.setAccepted(true);
+        loanRepo.save(loan);
+        return "redirect:/user/loanrequests";
+
+    }
 
 }
