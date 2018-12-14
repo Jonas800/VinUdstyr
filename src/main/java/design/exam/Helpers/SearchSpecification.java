@@ -9,6 +9,14 @@ public class SearchSpecification {
         return (Specification<Equipment>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get(targetField), "%" + parameter + "%");
     }
 
+    public static Specification<Equipment> doesFieldContain(Boolean parameter, String targetField) {
+        return (Specification<Equipment>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get(targetField), "%" + parameter + "%");
+    }
+
+    public static Specification<Equipment> doesFieldContain(Integer parameter, String targetField) {
+        return (Specification<Equipment>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get(targetField), "%" + parameter + "%");
+    }
+
     public static Specification<Equipment> doesForeignKeyContain(String parameter, String targetField, String joinTable) {
         return (Specification<Equipment>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.join(joinTable).get(targetField), "%" + parameter + "%");
     }
