@@ -93,11 +93,11 @@ public class HomeController {
             });
 
             Equipment[] equipmentArray = new Equipment[4];
-            for (int i = 0:){
-                equipmentArray[i]
+            for (int i = 0; i < 4; i++){
+                equipmentArray[i] = equipmentList.get(i);
             }
 
-            model.addAttribute("closestEquipment", equipmentList);
+            model.addAttribute("closestEquipment", equipmentArray);
 
             return "index";
         } else {
