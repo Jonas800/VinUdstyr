@@ -146,5 +146,6 @@ public class SessionHelper {
     public static void logout() {
         //HttpSession session = request.getSession();
         session.invalidate();
+        session = null;
     }
 }
