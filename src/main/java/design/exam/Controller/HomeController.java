@@ -99,7 +99,7 @@ public class HomeController {
             });
 
             ArrayList<Equipment> equipmentArray = new ArrayList();
-            for (int i = 0; i < 4; i++){
+            for (int i = 0; i < 4&&i<equipmentList.size(); i++){
                 equipmentArray.add(equipmentList.get(i));
             }
 

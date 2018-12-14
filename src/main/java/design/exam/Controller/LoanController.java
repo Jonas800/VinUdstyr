@@ -46,7 +46,7 @@ public class LoanController {
         loan.setLoanee(SessionHelper.getCurrentUser());
         Optional<Equipment> e = equipmentRepo.findById(id);
         loan.setEquipment(e.get());
-        e.get().setAvailableForLoan(false);
+//        e.get().setAvailableForLoan(false);
         saveAvailability(e.get());
         loanRepo.save(loan);
         return "redirect:/user/loans";
@@ -70,6 +70,7 @@ public class LoanController {
     public String loanRequests(Model model){
         List<Loan> loans = loanRepo.findAllByEquipment_Owner(SessionHelper.getCurrentUser());
         model.addAttribute("loanRequests", loans);
+        id = SessionHelper.getCurrentUser().getId();
         return "loanRequests";
     }
 
@@ -78,9 +79,12 @@ public class LoanController {
         Optional<Loan> optionalLoan = loanRepo.findById(id);
         Loan loan = optionalLoan.get();
         loan.setAccepted(true);
+        Equipment equipment =loan.getEquipment();
+        equipment.setAvailableForLoan(false);
+        equipment.setCurrentHolder(loan.getLoanee());
+        saveAvailability(equipment);
         loanRepo.save(loan);
         return "redirect:/user/loanrequests";
-
     }
 
 }
