@@ -3,8 +3,8 @@ package design.exam.Controller;
 import design.exam.Helpers.SessionHelper;
 import design.exam.Model.Equipment;
 import design.exam.Model.Loan;
+import design.exam.Repository.EquipmentRepository;
 import design.exam.Repository.LoanRepository;
-import design.exam.equipmentRepository;
 import org.hibernate.annotations.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,7 +23,7 @@ public class LoanController {
     private static Long id;
 
     @Autowired
-    equipmentRepository equipmentRepo;
+    EquipmentRepository equipmentRepo;
     @Autowired
     LoanRepository loanRepo;
 

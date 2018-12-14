@@ -5,10 +5,7 @@ import design.exam.Helpers.SessionHelper;
 import design.exam.Model.Equipment;
 import design.exam.Model.Loan;
 import design.exam.Model.Person;
-
 import design.exam.Repository.LoanRepository;
-import design.exam.equipmentRepository;
-
 import design.exam.Repository.EquipmentRepository;
 import design.exam.storage.StorageFileNotFoundException;
 import design.exam.storage.StorageService;
@@ -43,7 +40,7 @@ public class EquipmentController {
 
     @Autowired
 
-    private equipmentRepository equipmentRepo;
+    private EquipmentRepository equipmentRepo;
     @Autowired
     private LoanRepository loanRepo;
 
