@@ -9,11 +9,11 @@ public class SearchSpecification {
         return (Specification<Equipment>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get(targetField), "%" + parameter + "%");
     }
 
-    public static Specification<Equipment> doesFieldContain(Boolean parameter, String targetField) {
-        return (Specification<Equipment>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get(targetField), "%" + parameter + "%");
+    public static Specification<Equipment> doesFieldEqual(Boolean parameter, String targetField) {
+        return (Specification<Equipment>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get(targetField), parameter);
     }
 
-    public static Specification<Equipment> doesFieldContain(Integer parameter, String targetField) {
+    public static Specification<Equipment> doesFieldEqual(Integer parameter, String targetField) {
         return (Specification<Equipment>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get(targetField), parameter);
     }
 
@@ -21,12 +21,12 @@ public class SearchSpecification {
         return (Specification<Equipment>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.between(root.get(targetField), min, max);
     }
 
-    public static Specification<Equipment> doesForeignKeyContain(String parameter, String targetField, String joinTable) {
+    public static Specification<Equipment> doesForeignFieldContain(String parameter, String targetField, String joinTable) {
         return (Specification<Equipment>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.join(joinTable).get(targetField), "%" + parameter + "%");
     }
 
-    public static Specification<Equipment> doesForeignKeyContain(Integer parameter, String targetField, String joinTable) {
-        return (Specification<Equipment>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.join(joinTable).get(targetField), "%" + parameter + "%");
+    public static Specification<Equipment> doesForeignFieldEqual(Integer parameter, String targetField, String joinTable) {
+        return (Specification<Equipment>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.join(joinTable).get(targetField), parameter);
     }
 
     public static Specification<Equipment> doesForeignKeyContain(Boolean parameter, String targetField, String joinTable) {
