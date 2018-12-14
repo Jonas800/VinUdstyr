@@ -96,7 +96,7 @@ public class HomeController {
                 }
             });
 
-<<<<<<< HEAD
+
             ArrayList<Equipment> equipmentArray = new ArrayList();
             for (int i = 0; i < 4&&i<equipmentList.size(); i++){
                 equipmentArray.add(equipmentList.get(i));
@@ -112,14 +112,10 @@ public class HomeController {
                 favoritsArray.add(favorits.get(i));
             }
             model.addAttribute("favorits", favoritsArray);
-=======
-            Equipment[] equipmentArray = new Equipment[4];
-            for (int i = 0; i < 4; i++){
-                equipmentArray[i] = equipmentList.get(i);
-            }
 
-            model.addAttribute("closestEquipment", equipmentArray);
->>>>>>> master
+
+
+
 
             return "index";
         } else {

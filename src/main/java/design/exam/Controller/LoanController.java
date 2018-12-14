@@ -5,14 +5,13 @@ import design.exam.Model.Equipment;
 import design.exam.Model.Loan;
 import design.exam.Repository.EquipmentRepository;
 import design.exam.Repository.LoanRepository;
-<<<<<<< HEAD
-=======
-import org.hibernate.annotations.Generated;
->>>>>>> master
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
