@@ -1,0 +1,21 @@
+figure{
+    //border:2px solid crimson;
+    overflow:hidden;
+}
+figure a:hover > img{
+    transform:scale(1.5);
+    overflow:hidden;
+}
+
+figure a{
+    text-decoration:none;
+    color:black;
+}
+
+figure img{
+
+    width: 170px;
+
+    object-fit: cover;
+    height:170px;
+}

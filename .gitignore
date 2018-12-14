@@ -23,4 +23,8 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+<<<<<<< HEAD
+
+=======
 src/main/java/design/exam/Helpers/GoogleDistanceAPI.java
+>>>>>>> master

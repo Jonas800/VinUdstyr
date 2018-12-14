@@ -3,8 +3,14 @@ package design.exam.Controller;
 
 import design.exam.Helpers.SessionHelper;
 import design.exam.Model.Equipment;
+import design.exam.Model.Loan;
 import design.exam.Model.Person;
+<<<<<<< HEAD
+import design.exam.Repository.LoanRepository;
+import design.exam.equipmentRepository;
+=======
 import design.exam.Repository.EquipmentRepository;
+>>>>>>> master
 import design.exam.storage.StorageFileNotFoundException;
 import design.exam.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +24,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+<<<<<<< HEAD
+import java.util.ArrayList;
+import java.util.List;
+=======
+>>>>>>> master
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -32,7 +43,13 @@ public class EquipmentController {
     }
 
     @Autowired
+<<<<<<< HEAD
+    private equipmentRepository equipmentRepo;
+    @Autowired
+    private LoanRepository loanRepo;
+=======
     private EquipmentRepository equipmentRepo;
+>>>>>>> master
 
     @GetMapping("/equipment/new")
     public String createEquipment(Model m){
@@ -65,18 +82,6 @@ public class EquipmentController {
     }
 
 
-    @GetMapping("/equipment/show/{id}")
-    public String showEquipment(Model model, @PathVariable Long id){
-        Optional<Equipment> equipment = equipmentRepo.findById(id);
-        Equipment e = equipment.get();
-        storageService.loadAll().map(
-                path -> MvcUriComponentsBuilder.fromMethodName(EquipmentController.class,
-                        "serveFile", path.getFileName().toString()).build().toString())
-                .collect(Collectors.toList());
-        model.addAttribute("file", "equipment/show/files/" + e.getFileName());
-        model.addAttribute("equipment", e);
-        return "equipmentShow";
-    }
     @PostMapping("/equipment/new")
     public String newEquipment(Equipment equipment, @RequestParam("file")MultipartFile file, RedirectAttributes redirectAttributes){
         String fileName = storageService.store(file);
@@ -88,6 +93,45 @@ public class EquipmentController {
         equipment.setFileName(fileName);
         Equipment e = equipmentRepo.save(equipment);
 
-        return "redirect:/equipmentList";
+        return "redirect:/user/equipment";
     }
+
+    @GetMapping("/equipment/show/{id}")
+    public String showEquipment(Model model, @PathVariable Long id){
+        Optional<Equipment> equipment = equipmentRepo.findById(id);
+        Equipment e = equipment.get();
+        storageService.loadAll().map(
+                path -> MvcUriComponentsBuilder.fromMethodName(EquipmentController.class,
+                        "serveFile", path.getFileName().toString()).build().toString())
+                .collect(Collectors.toList());
+        model.addAttribute("file", "equipment/show/files/" + e.getFileName());
+        model.addAttribute("equipment", e);
+        model.addAttribute("owner", e.getOwner());
+        Person person = SessionHelper.getCurrentUser();
+        if(person.getId()==e.getOwner().getId()) {
+            return "ownerEquipmentShow";
+        }else {
+            return "loanEquipmentShow";
+        }
+    }
+
+    @GetMapping("/user/equipment")
+    public String userEquipment(Model model){
+        Person person = SessionHelper.getCurrentUser();
+
+        List<Equipment> equipment = equipmentRepo.findByOwner(person);
+
+        storageService.loadAll().map(
+                path -> MvcUriComponentsBuilder.fromMethodName(EquipmentController.class,
+                        "serveFile", path.getFileName().toString()).build().toString())
+                .collect(Collectors.toList());
+        model.addAttribute("equipments", equipment);
+
+//        List<Loan> loans = loanRepo.findAllByLoanee(SessionHelper.getCurrentUser().getId());
+//        model.addAttribute("loans", loans);
+
+        return "equipmentList";
+    }
+
+
 }
