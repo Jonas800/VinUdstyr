@@ -14,7 +14,11 @@ public class SearchSpecification {
     }
 
     public static Specification<Equipment> doesFieldEqual(Integer parameter, String targetField) {
+        if(!parameter.equals(0)){
         return (Specification<Equipment>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get(targetField), parameter);
+    } else{
+            return null;
+        }
     }
 
     public static Specification<Equipment> isFieldBetween(Integer min, Integer max, String targetField) {

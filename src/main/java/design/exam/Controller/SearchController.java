@@ -45,12 +45,12 @@ public class SearchController {
     public ModelAndView advancedSearch(@ModelAttribute Equipment equipment){
         ArrayList<Equipment> result = (ArrayList<Equipment>) equipmentRepository.findAll(Specification.
                 where(SearchSpecification.doesFieldContain(equipment.getEquipmentName(), "equipmentName")).
-                or(SearchSpecification.doesFieldEqual(equipment.getPriceFromNew(), "priceFromNew")).
+                and(SearchSpecification.doesFieldEqual(equipment.getPriceFromNew(), "priceFromNew")).
                 and(SearchSpecification.doesFieldEqual(equipment.getAvailableForLoan(), "availableForLoan")).
                 and(SearchSpecification.doesFieldContain(equipment.getOwnerComment(), "ownerComment")).
                 and(SearchSpecification.doesForeignFieldContain(equipment.getOwner().getFirstName(), "firstName", "owner")).
                 and(SearchSpecification.doesForeignFieldContain(equipment.getOwner().getLastName(), "lastName", "owner")).
-                or(SearchSpecification.doesForeignFieldEqual(equipment.getOwner().getZipcode(), "zipcode", "owner"))
+                and(SearchSpecification.doesForeignFieldEqual(equipment.getOwner().getZipcode(), "zipcode", "owner"))
         );
 
         ModelAndView mav = new ModelAndView("searchResult");
