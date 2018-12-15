@@ -5,12 +5,13 @@ import design.exam.Model.Equipment;
 import design.exam.Model.Loan;
 import design.exam.Repository.EquipmentRepository;
 import design.exam.Repository.LoanRepository;
-import org.hibernate.annotations.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -48,7 +49,7 @@ public class LoanController {
         loan.setLoanee(SessionHelper.getCurrentUser());
         Optional<Equipment> e = equipmentRepo.findById(id);
         loan.setEquipment(e.get());
-        e.get().setAvailableForLoan(false);
+//        e.get().setAvailableForLoan(false);
         saveAvailability(e.get());
         loanRepo.save(loan);
         return "redirect:/user/loans";
@@ -68,5 +69,25 @@ public class LoanController {
         return "loans";
     }
 
+    @GetMapping("/user/loanrequests")
+    public String loanRequests(Model model){
+        List<Loan> loans = loanRepo.findAllByEquipment_Owner(SessionHelper.getCurrentUser());
+        model.addAttribute("loanRequests", loans);
+        id = SessionHelper.getCurrentUser().getId();
+        return "loanRequests";
+    }
+
+    @GetMapping("/loan/approve/{id}")
+    public String AcceptLoan(@PathVariable Long id){
+        Optional<Loan> optionalLoan = loanRepo.findById(id);
+        Loan loan = optionalLoan.get();
+        loan.setAccepted(true);
+        Equipment equipment =loan.getEquipment();
+        equipment.setAvailableForLoan(false);
+        equipment.setCurrentHolder(loan.getLoanee());
+        saveAvailability(equipment);
+        loanRepo.save(loan);
+        return "redirect:/user/loanrequests";
+    }
 
 }

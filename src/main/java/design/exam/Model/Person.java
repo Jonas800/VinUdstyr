@@ -1,8 +1,7 @@
 package design.exam.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Person {
@@ -17,8 +16,16 @@ public class Person {
     private String address;
     private Integer zipcode;
 
+    @ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Equipment> favoriteEquipment;
+
     public Person() {
     }
+
+
+    public List<Equipment> getFavoriteEquipment() { return favoriteEquipment; }
+
+    public void setFavoriteEquipment(List<Equipment> favoriteEquipment) { this.favoriteEquipment = favoriteEquipment; }
 
     public Long getId() {
         return id;
@@ -82,5 +89,9 @@ public class Person {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void addTofavorits(Equipment e){
+        favoriteEquipment.add(e);
     }
 }

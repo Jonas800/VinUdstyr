@@ -2,7 +2,11 @@ package design.exam.Controller;
 
 import design.exam.Helpers.PasswordHelper;
 import design.exam.Helpers.SessionHelper;
+import design.exam.Model.Equipment;
+import design.exam.Model.Person;
 import design.exam.Model.User;
+import design.exam.Repository.EquipmentRepository;
+import design.exam.Repository.PersonRepository;
 import design.exam.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +26,12 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private EquipmentRepository equipmentRepo;
+
+    @Autowired
+    private PersonRepository personRepo;
 
     @GetMapping("/user/create")
     public String createUser(Model model){
@@ -85,5 +95,18 @@ public class UserController {
         userRepository.save(user);
 
         return "redirect:/user/view";
+    }
+
+    @GetMapping("/user/add/farvorit/{id}")
+    public String addFavoritEquipment(@PathVariable Long id){
+        System.out.println(id);
+        Optional<Equipment> optionalEquipment = equipmentRepo.findById(id);
+        Person person = SessionHelper.getCurrentUser();
+        System.out.println(person.getId());
+        person.addTofavorits(optionalEquipment.get());
+
+        personRepo.save(person);
+
+        return "redirect:/";
     }
 }

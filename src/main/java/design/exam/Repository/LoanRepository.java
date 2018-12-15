@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface LoanRepository extends CrudRepository<Loan, Long> {
     List<Loan> findAllByLoanee(Person person);
+    List<Loan> findAllByEquipment_Owner(Person person);
 }

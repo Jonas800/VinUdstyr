@@ -9,6 +9,7 @@ import design.exam.Helpers.SessionHelper;
 import design.exam.Model.Equipment;
 import design.exam.Model.Person;
 import design.exam.Repository.EquipmentRepository;
+import design.exam.Repository.PersonRepository;
 import design.exam.storage.StorageFileNotFoundException;
 import design.exam.storage.StorageService;
 import org.json.JSONArray;
@@ -41,6 +42,9 @@ public class HomeController {
 
     @Autowired
     private EquipmentRepository equipmentRepository;
+
+    @Autowired
+    private PersonRepository personRepo;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -92,12 +96,26 @@ public class HomeController {
                 }
             });
 
-            Equipment[] equipmentArray = new Equipment[4];
-            for (int i = 0; i < 4; i++){
-                equipmentArray[i] = equipmentList.get(i);
+
+            ArrayList<Equipment> equipmentArray = new ArrayList();
+            for (int i = 0; i < 4&&i<equipmentList.size(); i++){
+                equipmentArray.add(equipmentList.get(i));
             }
 
             model.addAttribute("closestEquipment", equipmentArray);
+
+            Person person = SessionHelper.getCurrentUser();
+
+            List<Equipment> favorits = person.getFavoriteEquipment();
+            ArrayList<Equipment> favoritsArray = new ArrayList<>();
+            for (int i = 0; i < favorits.size()&&i<4; i++){
+                favoritsArray.add(favorits.get(i));
+            }
+            model.addAttribute("favorits", favoritsArray);
+
+
+
+
 
             return "index";
         } else {
