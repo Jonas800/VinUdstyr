@@ -1,0 +1,14 @@
+figure{
+    overflow:hidden;
+}
+
+figure a{
+    text-decoration:none;
+    color:black;
+}
+
+figure img{
+    width: 450px;
+    object-fit: cover;
+    height:450px;
+}

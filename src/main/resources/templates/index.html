@@ -18,7 +18,7 @@
         <div class="row">
             <div th:each="favorit : ${favorits}" class="col-sm-3">
                 <figure>
-                    <a href="/equipment/details">
+                    <a th:href="'/equipment/show/' + ${favorit.id}">
 
                         <img width="100%" th:src="@{'~/files/'+${favorit.fileName}}" alt="">
                         <figcaption th:text="${favorit.equipmentName}"></figcaption>
@@ -32,7 +32,7 @@
         <div class="row">
             <div th:each="equipment : ${newestEquipment}" class="col-sm-3">
                 <figure>
-                    <a href="/equipment/details">
+                    <a th:href="'/equipment/show/' + ${equipment.id}">
 
                         <img width="100%" th:src="@{'~/files/'+${equipment.fileName}}" alt="">
                         <figcaption th:text="${equipment.equipmentName}"></figcaption>
@@ -44,7 +44,7 @@
         <div class="row">
             <div th:each="equipment : ${closestEquipment}" class="col-sm-3">
                 <figure>
-                    <a href="/equipment/details">
+                    <a th:href="'/equipment/show/' + ${equipment.id}">
 
                         <img width="100%" th:src="@{'~/files/'+${equipment.fileName}}" alt="">
                         <figcaption th:utext="${equipment.equipmentName} + '<span class=' +

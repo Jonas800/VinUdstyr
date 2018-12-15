@@ -5,6 +5,7 @@
     <title>Ejer udstyr view</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../equipmentdetails.css">
 
 </head>
 <body>
@@ -16,7 +17,6 @@
     <div class="container">
 
         <h1 class="display-4">Mere info om udstyr</h1>
-        <div class="form-row" >
             <!--<h1 class="display-4">Liste over eget udstyr</h1>-->
 
             <div th:replace="/equipmentShowForm"></div>
@@ -25,7 +25,6 @@
                 <button type="button" class="equipment-delete btn btn-outline-danger" th:attr="data-id=${equipment.id}">Delete</button>
             </div>
 
-        </div>
     </div>
 </div>
 
