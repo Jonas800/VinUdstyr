@@ -25,10 +25,13 @@
                 <a class="nav-link" href="/equipment/new">Tilføj udstyr</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="/course">Student</a>
+                <a class="nav-link" href="/user/equipment">Mit udstyr</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="/course">Teacher</a>
+                <a class="nav-link" href="/user/loans">Mine lån</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/user/loanrequests">Forespørgelser om lån</a>
             </li>
             <li th:if="${T(design.exam.Helpers.TypeChecker).isAdmin(T(design.exam.Helpers.SessionHelper).getCurrentUser())} " class="nav-item dropdown" id="navbarDropdownMenuLink">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"

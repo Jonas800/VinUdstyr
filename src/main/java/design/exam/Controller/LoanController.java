@@ -63,7 +63,6 @@ public class LoanController {
     @GetMapping("/user/loans")
     public String showLoans(Model model){
         List<Loan> loans = loanRepo.findAllByLoanee(SessionHelper.getCurrentUser());
-        System.out.println(loans.get(0).getStartDate());
         model.addAttribute("loans", loans);
 
         return "loans";
