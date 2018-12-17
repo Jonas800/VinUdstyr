@@ -22,6 +22,7 @@ public class AdminController {
 
     @GetMapping("/admin/create")
     public String createAdmin(Model model) {
+        //Session check is removed on the off chance the db breaks and there's no admins to create more admins
       //  if (SessionHelper.isAdmin()) {
             model.addAttribute("person", new Admin());
             return "createAdmin";

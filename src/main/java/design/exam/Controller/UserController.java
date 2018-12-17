@@ -8,6 +8,7 @@ import design.exam.Model.User;
 import design.exam.Repository.EquipmentRepository;
 import design.exam.Repository.PersonRepository;
 import design.exam.Repository.UserRepository;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,14 +35,14 @@ public class UserController {
     private PersonRepository personRepo;
 
     @GetMapping("/user/create")
-    public String createUser(Model model){
+    public String createUser(Model model) {
         model.addAttribute("person", new User());
 
         return "createUser";
     }
 
     @PostMapping("/user/create")
-    public String createUser(@ModelAttribute User user){
+    public String createUser(@ModelAttribute User user) {
 
         try {
             user.setPassword(PasswordHelper.generateStrongPasswordHash(user.getPassword()));
@@ -56,57 +57,75 @@ public class UserController {
     }
 
     @GetMapping("/user/approve")
-    public String approveUser(Model model){
-        model.addAttribute("persons", userRepository.findAllByIsApprovedEquals(false));
+    public String approveUser(Model model) {
+        if (SessionHelper.isAdmin()) {
+            model.addAttribute("persons", userRepository.findAllByIsApprovedEquals(false));
 
-        return "viewUser";
+            return "viewUser";
+        } else {
+            return "redirect:/forbidden";
+        }
     }
 
     @GetMapping("/user/approve/{id}")
-    public String approveUser(@PathVariable Long id){
-        Optional<User> optionalUser = userRepository.findById(id);
-        User user = optionalUser.get();
-        user.setApproved(true);
+    public String approveUser(@PathVariable Long id) {
+        if (SessionHelper.isAdmin()) {
+            Optional<User> optionalUser = userRepository.findById(id);
+            User user = optionalUser.get();
+            user.setApproved(true);
 
-        userRepository.save(user);
+            userRepository.save(user);
 
-        return "redirect:/user/view";
+            return "redirect:/user/view";
+        } else {
+            return "redirect:/forbidden";
+        }
     }
 
     @GetMapping("/wait")
-    public String waitForApproval(){
+    public String waitForApproval() {
         return "waitForApproval";
     }
 
     @GetMapping("/user/view")
-    public String viewActiveUsers(Model model){
+    public String viewActiveUsers(Model model) {
+        if (SessionHelper.isAdmin()) {
+            model.addAttribute("persons", userRepository.findAllByIsApprovedEquals(true));
 
-        model.addAttribute("persons", userRepository.findAllByIsApprovedEquals(true));
-
-        return "viewApprovedUsers";
+            return "viewApprovedUsers";
+        } else {
+            return "redirect:/forbidden";
+        }
     }
 
     @GetMapping("/user/ban/{id}")
-    public String banUser(@PathVariable Long id){
-        Optional<User> optionalUser = userRepository.findById(id);
-        User user = optionalUser.get();
-        user.setApproved(false);
+    public String banUser(@PathVariable Long id) {
+        if (SessionHelper.isAdmin()) {
+            Optional<User> optionalUser = userRepository.findById(id);
+            User user = optionalUser.get();
+            user.setApproved(false);
 
-        userRepository.save(user);
+            userRepository.save(user);
 
-        return "redirect:/user/view";
+            return "redirect:/user/view";
+        } else {
+            return "redirect:/forbidden";
+        }
     }
 
     @GetMapping("/user/add/farvorit/{id}")
-    public String addFavoritEquipment(@PathVariable Long id){
-        System.out.println(id);
-        Optional<Equipment> optionalEquipment = equipmentRepo.findById(id);
-        Person person = SessionHelper.getCurrentUser();
-        System.out.println(person.getId());
-        person.addTofavorits(optionalEquipment.get());
+    public String addFavoritEquipment(@PathVariable Long id) {
+        if (SessionHelper.isLoginSessionValid()) {
+            Optional<Equipment> optionalEquipment = equipmentRepo.findById(id);
+            Person person = SessionHelper.getCurrentUser();
+            System.out.println(person.getId());
+            person.addTofavorits(optionalEquipment.get());
 
-        personRepo.save(person);
+            personRepo.save(person);
 
-        return "redirect:/";
+            return "redirect:/";
+        } else {
+            return "redirect:/forbidden";
+        }
     }
 }

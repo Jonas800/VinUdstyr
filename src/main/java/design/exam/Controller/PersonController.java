@@ -31,7 +31,7 @@ public class PersonController {
             model.addAttribute("error", error);
             return "login";
         } else{
-            return "redirect:/index";
+            return "redirect:/";
         }
     }
 
@@ -44,6 +44,15 @@ public class PersonController {
         if (person != null && person.getEmail() != null) {
             try {
                 if (PasswordHelper.validatePassword(password, person.getPassword())) {
+                    if(person instanceof User){
+                        System.out.println("hmm");
+
+                        if(((User) person).getApproved().equals(false)){
+                            error = "Afvent godkendelse";
+
+                            return "redirect:/login";
+                        }
+                    }
                     HttpSession session = request.getSession();
                     session.setAttribute("login", person);
                     SessionHelper.setSession(session);
@@ -53,7 +62,7 @@ public class PersonController {
                 e.printStackTrace();
             }
         }
-        error = "Email or password is invalid";
+        error = "Email eller kodeord er forkert";
 
         return "redirect:/login";
     }

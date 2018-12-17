@@ -40,22 +40,26 @@ public class EquipmentController {
     private LoanRepository loanRepo;
 
 
-
-
-
-
     @GetMapping("/equipment/new")
-    public String createEquipment(Model m){
-        m.addAttribute("equipment", new Equipment());
-        return "equipmentNew";
+    public String createEquipment(Model m) {
+        if (SessionHelper.isLoginSessionValid()) {
+            m.addAttribute("equipment", new Equipment());
+            return "equipmentNew";
+        } else {
+            return "redirect:/forbidden";
+        }
     }
 
     @GetMapping("/equipment/edit/{id}")
     public String equipmentEditView(Model m, @PathVariable Long id) {
-        Optional<Equipment> optionalEquipment = equipmentRepo.findById(id);
-        Equipment e = optionalEquipment.get();
-        m.addAttribute("equipment", e);
-        return "equipmentEdit";
+        if (SessionHelper.isLoginSessionValid()) {
+            Optional<Equipment> optionalEquipment = equipmentRepo.findById(id);
+            Equipment e = optionalEquipment.get();
+            m.addAttribute("equipment", e);
+            return "equipmentEdit";
+        } else {
+            return "redirect:/forbidden";
+        }
     }
 
     @GetMapping("/equipment/show/files/{filename:.+}")
@@ -68,7 +72,6 @@ public class EquipmentController {
     }
 
 
-
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
         return ResponseEntity.notFound().build();
@@ -76,54 +79,66 @@ public class EquipmentController {
 
 
     @PostMapping("/equipment/new")
-    public String newEquipment(Equipment equipment, @RequestParam("file")MultipartFile file, RedirectAttributes redirectAttributes){
-        String fileName = storageService.store(file);
-        redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
-        Person person = SessionHelper.getCurrentUser();
-        equipment.setOwner(person);
-        equipment.setCurrentHolder(person);
-        equipment.setFileName(fileName);
-        Equipment e = equipmentRepo.save(equipment);
+    public String newEquipment(Equipment equipment, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+        if (SessionHelper.isLoginSessionValid()) {
+            String fileName = storageService.store(file);
+            redirectAttributes.addFlashAttribute("message",
+                    "You successfully uploaded " + file.getOriginalFilename() + "!");
+            Person person = SessionHelper.getCurrentUser();
+            equipment.setOwner(person);
+            equipment.setCurrentHolder(person);
+            equipment.setFileName(fileName);
+            Equipment e = equipmentRepo.save(equipment);
 
-        return "redirect:/user/equipment";
+            return "redirect:/user/equipment";
+        } else {
+            return "redirect:/forbidden";
+        }
     }
 
     @GetMapping("/equipment/show/{id}")
-    public String showEquipment(Model model, @PathVariable Long id){
-        Optional<Equipment> equipment = equipmentRepo.findById(id);
-        Equipment e = equipment.get();
-        storageService.loadAll().map(
-                path -> MvcUriComponentsBuilder.fromMethodName(EquipmentController.class,
-                        "serveFile", path.getFileName().toString()).build().toString())
-                .collect(Collectors.toList());
-        model.addAttribute("file", "equipment/show/files/" + e.getFileName());
-        model.addAttribute("equipment", e);
-        model.addAttribute("owner", e.getOwner());
-        Person person = SessionHelper.getCurrentUser();
-        if(person.getId()==e.getOwner().getId()) {
-            return "ownerEquipmentShow";
-        }else {
-            return "loanEquipmentShow";
+    public String showEquipment(Model model, @PathVariable Long id) {
+        if (SessionHelper.isLoginSessionValid()) {
+            Optional<Equipment> equipment = equipmentRepo.findById(id);
+            Equipment e = equipment.get();
+            storageService.loadAll().map(
+                    path -> MvcUriComponentsBuilder.fromMethodName(EquipmentController.class,
+                            "serveFile", path.getFileName().toString()).build().toString())
+                    .collect(Collectors.toList());
+            model.addAttribute("file", "equipment/show/files/" + e.getFileName());
+            model.addAttribute("equipment", e);
+            model.addAttribute("owner", e.getOwner());
+            Person person = SessionHelper.getCurrentUser();
+            if (person.getId() == e.getOwner().getId()) {
+                return "ownerEquipmentShow";
+            } else {
+                return "loanEquipmentShow";
+            }
+        } else {
+            return "redirect:/forbidden";
         }
     }
 
     @GetMapping("/user/equipment")
-    public String userEquipment(Model model){
-        Person person = SessionHelper.getCurrentUser();
+    public String userEquipment(Model model) {
+        if (SessionHelper.isLoginSessionValid()) {
+            Person person = SessionHelper.getCurrentUser();
 
-        List<Equipment> equipment = equipmentRepo.findByOwner(person);
+            List<Equipment> equipment = equipmentRepo.findByOwner(person);
 
-        storageService.loadAll().map(
-                path -> MvcUriComponentsBuilder.fromMethodName(EquipmentController.class,
-                        "serveFile", path.getFileName().toString()).build().toString())
-                .collect(Collectors.toList());
-        model.addAttribute("equipments", equipment);
+            storageService.loadAll().map(
+                    path -> MvcUriComponentsBuilder.fromMethodName(EquipmentController.class,
+                            "serveFile", path.getFileName().toString()).build().toString())
+                    .collect(Collectors.toList());
+            model.addAttribute("equipments", equipment);
 
 //        List<Loan> loans = loanRepo.findAllByLoanee(SessionHelper.getCurrentUser().getId());
 //        model.addAttribute("loans", loans);
 
-        return "equipmentList";
+            return "equipmentList";
+        } else {
+            return "redirect:/forbidden";
+        }
     }
 
 
